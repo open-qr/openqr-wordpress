@@ -70,7 +70,7 @@ class LifecycleTest extends OpenQR_TestCase {
 		// Full wipe (uninstall opt-in): gone.
 		OpenQR_Lifecycle::wipe_site_data();
 		$this->assertNull( OpenQR_Registry::get_by_code_id( 'code-w1' ) );
-		$this->assertSame( '', get_option( OpenQR_Settings::OPT_KEY ) );
+		$this->assertFalse( get_option( OpenQR_Settings::OPT_KEY ) );
 		$this->assertFalse( get_option( OpenQR_Settings::OPT_ACCOUNT ) );
 	}
 
@@ -110,6 +110,7 @@ class LifecycleTest extends OpenQR_TestCase {
 				'slug'            => 'x1',
 				'short_url'       => 'https://oqr.to/x1',
 				'encoded_url'     => 'https://example.com',
+				'style_hash'      => OpenQR_Assets::style_hash( 'https://oqr.to/x1' ),
 				'placement_label' => '"><script>alert(1)</script>',
 			)
 		);
@@ -136,6 +137,7 @@ class LifecycleTest extends OpenQR_TestCase {
 				'slug'        => 'b1',
 				'short_url'   => 'https://oqr.to/b1',
 				'encoded_url' => 'https://example.com',
+				'style_hash'  => OpenQR_Assets::style_hash( 'https://oqr.to/b1' ),
 			)
 		);
 		$row  = OpenQR_Registry::get_by_code_id( 'code-b1' );

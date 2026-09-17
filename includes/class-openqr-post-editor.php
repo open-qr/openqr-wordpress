@@ -14,11 +14,21 @@ defined( 'ABSPATH' ) || exit;
 final class OpenQR_Post_Editor {
 
 	/**
-	 * Register the metabox on supported post types.
+	 * Register hooks. The metabox itself registers on add_meta_boxes: add_meta_box() is not
+	 * available at plugins_loaded.
 	 *
 	 * @return void
 	 */
 	public static function register(): void {
+		add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_boxes' ) );
+	}
+
+	/**
+	 * Add the metabox on supported post types.
+	 *
+	 * @return void
+	 */
+	public static function add_meta_boxes(): void {
 		foreach ( OpenQR_Post_Actions::supported_types() as $type ) {
 			add_meta_box( 'openqr_codes', __( 'OpenQR', 'openqr' ), array( __CLASS__, 'render' ), $type, 'side', 'default' );
 		}

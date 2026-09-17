@@ -6,11 +6,21 @@
  * uploads/). Attribute changes after 1.0 require a block.json `deprecated` entry.
  */
 import { registerBlockType } from '@wordpress/blocks';
-import { createElement } from '@wordpress/element';
+import { createElement, useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { Placeholder, Spinner, ToggleControl, TextControl, RangeControl, Button } from '@wordpress/components';
-import { useBlockProps, AlignmentControl, BlockControls } from '@wordpress/block-editor';
-import { useEffect, useState } from '@wordpress/element';
+import {
+	Placeholder,
+	Spinner,
+	ToggleControl,
+	TextControl,
+	RangeControl,
+	Button,
+} from '@wordpress/components';
+import {
+	useBlockProps,
+	AlignmentControl,
+	BlockControls,
+} from '@wordpress/block-editor';
 import apiFetch from '@wordpress/api-fetch';
 import metadata from './block.json';
 import './editor.scss';
@@ -52,10 +62,17 @@ function Edit( props ) {
 		apiFetch( {
 			path: '/openqr/v1/codes',
 			method: 'POST',
-			data: { destination: attributes.url, label: attributes.label || '' },
+			data: {
+				destination: attributes.url,
+				label: attributes.label || '',
+			},
 		} )
 			.then( ( res ) => {
-				setAttributes( { codeId: res.row.code_id, assetUrl: res.row.asset_url || '', shortLink: res.row.short_url || '' } );
+				setAttributes( {
+					codeId: res.row.code_id,
+					assetUrl: res.row.asset_url || '',
+					shortLink: res.row.short_url || '',
+				} );
 			} )
 			.catch( () => {} )
 			.finally( () => setCreating( false ) );
@@ -68,15 +85,27 @@ function Edit( props ) {
 			<BlockControls>
 				<AlignmentControl
 					value={ attributes.align }
-					onChange={ ( next ) => setAttributes( { align: next || '' } ) }
+					onChange={ ( next ) =>
+						setAttributes( { align: next || '' } )
+					}
 				/>
 			</BlockControls>
 			{ previewUrl ? (
 				<figure className="openqr-figure openqr-block-preview">
-					<img src={ previewUrl } width={ attributes.size } height={ attributes.size } alt="" />
-					{ ( attributes.showLink && attributes.shortLink ) || attributes.label ? (
+					<img
+						src={ previewUrl }
+						width={ attributes.size }
+						height={ attributes.size }
+						alt=""
+					/>
+					{ ( attributes.showLink && attributes.shortLink ) ||
+					attributes.label ? (
 						<figcaption className="openqr-caption">
-							{ attributes.showLink && attributes.shortLink ? <code>{ attributes.shortLink }</code> : attributes.label }
+							{ attributes.showLink && attributes.shortLink ? (
+								<code>{ attributes.shortLink }</code>
+							) : (
+								attributes.label
+							) }
 						</figcaption>
 					) : null }
 				</figure>
@@ -84,9 +113,17 @@ function Edit( props ) {
 				<Placeholder
 					icon="grid-view"
 					label={ __( 'OpenQR code', 'openqr' ) }
-					instructions={ window.openqrEditor?.isConnected
-						? __( 'Pick one of your codes, or create one from a URL.', 'openqr' )
-						: __( 'Connect OpenQR in Settings first.', 'openqr' ) }
+					instructions={
+						window.openqrEditor?.isConnected
+							? __(
+									'Pick one of your codes, or create one from a URL.',
+									'openqr'
+							  )
+							: __(
+									'Connect OpenQR in Settings first.',
+									'openqr'
+							  )
+					}
 				>
 					{ creating ? (
 						<Spinner />
@@ -99,15 +136,23 @@ function Edit( props ) {
 									aria-label={ __( 'Your codes', 'openqr' ) }
 									value={ attributes.codeId }
 									onChange={ ( e ) => {
-										const code = ( codes || [] ).find( ( c ) => c.code_id === e.target.value );
+										const code = ( codes || [] ).find(
+											( c ) =>
+												c.code_id === e.target.value
+										);
 										if ( code ) {
 											pickCode( code );
 										}
 									} }
 								>
-									<option value="">{ __( '— choose a code —', 'openqr' ) }</option>
+									<option value="">
+										{ __( '— choose a code —', 'openqr' ) }
+									</option>
 									{ ( codes || [] ).map( ( code ) => (
-										<option key={ code.code_id } value={ code.code_id }>
+										<option
+											key={ code.code_id }
+											value={ code.code_id }
+										>
 											{ code.label || code.code_id }
 										</option>
 									) ) }
@@ -116,9 +161,19 @@ function Edit( props ) {
 							<TextControl
 								placeholder={ __( '…or any URL', 'openqr' ) }
 								value={ attributes.url }
-								onChange={ ( url ) => setAttributes( { url, codeId: '', assetUrl: '' } ) }
+								onChange={ ( url ) =>
+									setAttributes( {
+										url,
+										codeId: '',
+										assetUrl: '',
+									} )
+								}
 							/>
-							<Button variant="primary" onClick={ createForUrl } disabled={ ! attributes.url }>
+							<Button
+								variant="primary"
+								onClick={ createForUrl }
+								disabled={ ! attributes.url }
+							>
 								{ __( 'Create editable code', 'openqr' ) }
 							</Button>
 						</>
@@ -167,14 +222,29 @@ registerBlockType( metadata, {
 			} ),
 		];
 		if ( attributes.showLink && attributes.shortLink ) {
-			children.push( createElement( 'figcaption', { className: 'openqr-caption' }, createElement( 'code', null, attributes.shortLink ) ) );
+			children.push(
+				createElement(
+					'figcaption',
+					{ className: 'openqr-caption' },
+					createElement( 'code', null, attributes.shortLink )
+				)
+			);
 		} else if ( attributes.label ) {
-			children.push( createElement( 'figcaption', { className: 'openqr-caption' }, attributes.label ) );
+			children.push(
+				createElement(
+					'figcaption',
+					{ className: 'openqr-caption' },
+					attributes.label
+				)
+			);
 		}
-		return createElement( 'figure', { className: 'openqr-figure' }, children );
+		return createElement(
+			'figure',
+			{ className: 'openqr-figure' },
+			children
+		);
 	},
 } );
 
 // Sidebar panel rides the same bundle: one entry, one asset.php.
 import '../../sidebar/panel';
-
