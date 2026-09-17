@@ -1,0 +1,21 @@
+{
+	"name": "openqr-wordpress",
+	"version": "1.0.0",
+	"private": true,
+	"description": "Official OpenQR WordPress plugin: create, manage and print QR codes from wp-admin.",
+	"license": "GPL-2.0-or-later",
+	"scripts": {
+		"build": "wp-scripts build src/blocks/qr/index.js --output-path build/blocks/qr && node bin/copy-assets.js",
+		"start": "wp-scripts start src/blocks/qr/index.js --output-path build/blocks/qr",
+		"lint-js": "wp-scripts lint-js src/",
+		"lint-style": "wp-scripts lint-style src/",
+		"format": "wp-scripts format src/",
+		"plugin-check": "wp-env run tests-cli --env-cwd=wp-content/plugins/openqr wp plugin check --strict ./",
+		"test:php": "wp-env run tests-cli --env-cwd=wp-content/plugins/openqr phpunit -c phpunit.xml.dist",
+		"wp-env": "wp-env"
+	},
+	"devDependencies": {
+		"@wordpress/env": "^10.0.0",
+		"@wordpress/scripts": "^30.0.0"
+	}
+}

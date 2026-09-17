@@ -1,0 +1,215 @@
+/* OpenQR admin screens. Brand: teal #0a7a79 primary (AA on white), ink #232e3a. */
+
+.openqr-wrap .openqr-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.openqr-logo {
+	border-radius: 4px;
+	flex: none;
+}
+
+.openqr-card {
+	max-width: 780px;
+	background: #fff;
+	border: 1px solid #d2d9e0;
+	border-radius: 8px;
+	padding: 16px 20px;
+	margin: 16px 0;
+}
+
+.openqr-card h2 {
+	margin-top: 0;
+}
+
+.openqr-stats-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	margin: 16px 0;
+}
+
+.openqr-stat-card {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 180px;
+	background: #fff;
+	border: 1px solid #d2d9e0;
+	border-radius: 8px;
+	padding: 14px 16px;
+}
+
+.openqr-stat-number {
+	font-size: 22px;
+	font-weight: 600;
+	color: #232e3a;
+	word-break: break-all;
+}
+
+.openqr-stat-label {
+	font-size: 12px;
+	color: #5a6573;
+}
+
+.openqr-quick-actions {
+	display: flex;
+	gap: 8px;
+	margin: 16px 0 24px;
+}
+
+.openqr-table .openqr-cell-thumb {
+	width: 72px;
+}
+
+.openqr-table .openqr-cell-thumb img {
+	border: 1px solid #d2d9e0;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.openqr-thumb-placeholder {
+	display: inline-block;
+	width: 56px;
+	height: 56px;
+	border: 1px dashed #b6c0cb;
+	border-radius: 4px;
+	background: #f4f6f8;
+}
+
+.openqr-badge {
+	display: inline-block;
+	margin-left: 6px;
+	padding: 1px 8px;
+	border-radius: 10px;
+	font-size: 11px;
+	font-weight: 600;
+	vertical-align: middle;
+}
+
+.openqr-badge--static {
+	background: #e6f7f7;
+	color: #065f5e;
+}
+
+.openqr-badge--paused {
+	background: #fef3c7;
+	color: #92400e;
+}
+
+.openqr-status--active {
+	color: #067647;
+	font-weight: 600;
+}
+
+.openqr-status--paused {
+	color: #b45309;
+	font-weight: 600;
+}
+
+.openqr-muted {
+	color: #5a6573;
+	font-size: 12px;
+}
+
+.openqr-cell-actions {
+	white-space: nowrap;
+}
+
+.openqr-cell-actions .button {
+	margin: 1px 0;
+}
+
+.openqr-row-new td {
+	background: #f0fbfb;
+}
+
+.openqr-edit-form {
+	margin-top: 8px;
+	background: #f4f6f8;
+	border-radius: 6px;
+	padding: 10px 12px;
+}
+
+.openqr-edit-form label {
+	display: block;
+	margin-bottom: 6px;
+}
+
+.openqr-edit-form label span {
+	display: block;
+	font-size: 12px;
+	color: #5a6573;
+	margin-bottom: 2px;
+}
+
+.openqr-field {
+	display: block;
+	margin: 12px 0;
+}
+
+.openqr-field > span {
+	display: block;
+	font-size: 12px;
+	color: #5a6573;
+	margin-bottom: 4px;
+}
+
+.openqr-field .description {
+	margin-top: 4px;
+}
+
+.openqr-tab-lede {
+	max-width: 680px;
+	color: #5a6573;
+}
+
+.openqr-type-fields {
+	border-left: 3px solid #e6f7f7;
+	padding-left: 12px;
+}
+
+.openqr-upsell {
+	border-left: 4px solid #0a7a79;
+}
+
+.openqr-analytics-layout {
+	display: flex;
+	gap: 16px;
+	align-items: flex-start;
+	margin-top: 12px;
+}
+
+.openqr-analytics-thumb {
+	border: 1px solid #d2d9e0;
+	border-radius: 8px;
+	background: #fff;
+}
+
+.openqr-staging-card {
+	border-left: 4px solid #b45309;
+}
+
+.openqr-meta-list {
+	margin: 0 0 8px;
+}
+
+.openqr-panel-list,
+.openqr-panel-empty {
+	margin: 6px 0;
+}
+
+.openqr-panel-link {
+	font-size: 11px;
+	color: #5a6573;
+}
+
+.openqr-reconnect-banner {
+	border-left-color: #b45309;
+}
+
+.openqr-js-notice {
+	margin: 8px 0 16px;
+}

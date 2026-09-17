@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint (php + js)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer:v2, phpstan
+
+      - name: Install PHP dev deps
+        run: composer install --prefer-dist --no-progress
+
+      - name: PHPCS (WordPress-Extra + Docs, PHP 7.4-8.5)
+        run: composer lint
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install JS dev deps
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Lint JS
+        run: npm run lint-js
+
+  test:
+    name: PHPUnit (PHP ${{ matrix.php }}, WP ${{ matrix.wp }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 7.4 is a deliberate legacy-reach decision (SMB hosts); 8.5 is forward-proofing.
+        php: ['7.4', '8.1', '8.4', '8.5']
+        wp: ['6.4', 'latest']
+        exclude:
+          # WP 6.4 predates PHP 8.5; the pairing is untestable.
+          - php: '8.5'
+            wp: '6.4'
+          - php: '7.4'
+            wp: 'latest'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install JS dev deps + build
+        run: npm install && npm run build
+
+      - name: Run PHPUnit in wp-env
+        uses: WordPress/wp-env@latest
+        env:
+          WP_ENV_PHP_VERSION: ${{ matrix.php }}
+          WP_ENV_CORE: ${{ matrix.wp == 'latest' && 'WordPress/WordPress' || 'https://wordpress.org/wordpress-6.4.tar.gz' }}
+        with:
+          extensions: ''
+          # wp-env starts the container and runs: phpunit -c phpunit.xml.dist
+          run: |
+            npm run test:php

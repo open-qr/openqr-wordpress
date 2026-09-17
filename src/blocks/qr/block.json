@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "openqr/qr",
+	"title": "OpenQR code",
+	"category": "media",
+	"description": "Embed an OpenQR QR code: a saved editable code, or a fixed URL. Renders as a durable image stored on this site.",
+	"textdomain": "openqr",
+	"attributes": {
+		"codeId": { "type": "string", "default": "" },
+		"url": { "type": "string", "default": "" },
+		"assetUrl": { "type": "string", "default": "" },
+		"shortLink": { "type": "string", "default": "" },
+		"label": { "type": "string", "default": "" },
+		"size": { "type": "number", "default": 280 },
+		"showLink": { "type": "boolean", "default": false },
+		"align": { "type": "string", "default": "" }
+	},
+	"supports": {
+		"html": false,
+		"align": [ "left", "center", "right", "wide", "full" ]
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css"
+}

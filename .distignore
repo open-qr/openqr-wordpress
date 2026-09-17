@@ -1,0 +1,24 @@
+# Everything not shipped in the wp.org dist. SVN trunk == the dist/ output.
+.git
+.github
+.wordpress-org
+node_modules
+vendor
+tests
+src
+bin
+dist
+build/blocks/qr/index.js.map
+.wp-env.override.json
+.phpunit.result.cache
+composer.json
+composer.lock
+package.json
+package-lock.json
+phpcs.xml.dist
+phpstan.neon.dist
+phpunit.xml.dist
+.editorconfig
+.gitignore
+.distignore
+README.md
