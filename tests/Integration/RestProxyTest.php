@@ -109,8 +109,10 @@ class RestProxyTest extends OpenQR_TestCase {
 	}
 
 	public function test_account_scope_requires_connection_manager(): void {
+		// Delegated editors read the SITE registry, but never the account library.
 		wp_set_current_user( $this->editor );
-		$this->assertSame( 403, $this->rest( 'GET', '/codes', array(), null )->get_status() );
+		$this->assertSame( 200, $this->rest( 'GET', '/codes' )->get_status() );
+		$this->assertSame( 403, $this->rest( 'GET', '/codes?scope=account' )->get_status() );
 
 		wp_set_current_user( $this->admin );
 		MockHttp::queue_json( 200, array( 'codes' => array( array( 'id' => 'x' ) ) ) );

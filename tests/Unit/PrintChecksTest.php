@@ -30,7 +30,8 @@ class PrintChecksTest extends OpenQR_TestCase {
 	}
 
 	public function test_low_contrast_strong_warning(): void {
-		$warnings = OpenQR_Print_Checks::assess( 'https://example.com', '#9a9a9a', '#dedede', 4 );
+		// Light grey on white: ratio ~1.6:1, well under 2:1.
+		$warnings = OpenQR_Print_Checks::assess( 'https://example.com', '#cccccc', '#ffffff', 4 );
 		$keys     = wp_list_pluck( $warnings, 'key' );
 		$this->assertContains( 'contrast', $keys );
 		$contrast = $warnings[ array_search( 'contrast', $keys, true ) ];
@@ -38,8 +39,8 @@ class PrintChecksTest extends OpenQR_TestCase {
 	}
 
 	public function test_borderline_contrast_plain_warning(): void {
-		// Ratio just under 3:1.
-		$warnings = OpenQR_Print_Checks::assess( 'https://example.com', '#6b7280', '#e5e7eb', 4 );
+		// Ratio just under 3:1 (about 2.1:1).
+		$warnings = OpenQR_Print_Checks::assess( 'https://example.com', '#9a9a9a', '#dedede', 4 );
 		$keys     = wp_list_pluck( $warnings, 'key' );
 		$this->assertContains( 'contrast', $keys );
 		$contrast = $warnings[ array_search( 'contrast', $keys, true ) ];

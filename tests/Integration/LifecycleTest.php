@@ -9,6 +9,11 @@
 class LifecycleTest extends OpenQR_TestCase {
 
 	public function test_permalink_change_is_flagged_and_offered_not_auto_written(): void {
+		// Permalink-change detection needs pretty permalinks (plain ?p=N never changes).
+		global $wp_rewrite;
+		$wp_rewrite->set_permalink_structure( '/%postname%/' );
+		flush_rewrite_rules();
+
 		$post_id = self::factory()->post->create(
 			array(
 				'post_status' => 'publish',
@@ -44,6 +49,10 @@ class LifecycleTest extends OpenQR_TestCase {
 	}
 
 	public function test_wipe_site_data_removes_everything_but_only_when_asked(): void {
+		global $wp_rewrite;
+		$wp_rewrite->set_permalink_structure( '/%postname%/' );
+		flush_rewrite_rules();
+
 		OpenQR_Registry::upsert(
 			array(
 				'code_id'     => 'code-w1',
@@ -90,6 +99,10 @@ class LifecycleTest extends OpenQR_TestCase {
 	}
 
 	public function test_shortcode_escapes_hostile_labels(): void {
+		global $wp_rewrite;
+		$wp_rewrite->set_permalink_structure( '/%postname%/' );
+		flush_rewrite_rules();
+
 		OpenQR_Registry::upsert(
 			array(
 				'code_id'         => 'code-x1',

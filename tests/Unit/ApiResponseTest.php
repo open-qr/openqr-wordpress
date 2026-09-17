@@ -11,6 +11,9 @@ class ApiResponseTest extends OpenQR_TestCase {
 		if ( 'json' === $raw ) {
 			$raw = '{"error":"x","code":"y"}';
 		}
+		if ( null !== $raw && empty( $headers['content-type'] ) ) {
+			$headers['content-type'] = 'application/json';
+		}
 		return new OpenQR_Api_Response( $status, $headers, $raw );
 	}
 

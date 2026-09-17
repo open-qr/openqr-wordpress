@@ -36,10 +36,19 @@ tests_add_filter(
 tests_add_filter(
 	'muplugins_loaded',
 	static function () {
-		require_once dirname( __DIR__ ) . '/tests/mock-http.php';
+		require_once dirname( __DIR__ ) . '/tests/class-mock-http.php';
 		MockHttp::install();
 	},
 	5
 );
 
+// Give the WP test suite access to the Yoast polyfills shipped with the plugin's dev deps.
+$_openqr_polyfills = dirname( __DIR__ ) . '/vendor/yoast/phpunit-polyfills/phpunitpolyfills-autoload.php';
+if ( file_exists( $_openqr_polyfills ) ) {
+	require_once $_openqr_polyfills;
+}
+
 require $_tests_dir . '/includes/bootstrap.php';
+
+// Test base classes (extend WP_UnitTestCase, so they load after the WP bootstrap).
+require_once dirname( __DIR__ ) . '/tests/class-openqr-testcase.php';

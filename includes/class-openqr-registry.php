@@ -271,13 +271,16 @@ final class OpenQR_Registry {
 	}
 
 	/**
-	 * Drop the table (uninstall opt-in). Assets and options are handled separately.
+	 * Remove the registry (uninstall opt-in): rows first (DML always applies), then the table
+	 * itself as a best-effort DDL. Assets and options are handled separately.
 	 *
 	 * @return void
 	 */
 	public static function drop(): void {
 		global $wpdb;
 		$table = self::table();
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared -- uninstall path, constant table name.
+		$wpdb->query( "DELETE FROM {$table}" );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.Schema, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- uninstall path, constant table name.
 		$wpdb->query( "DROP TABLE IF EXISTS {$table}" );
 		delete_option( self::TABLE_OPTION );

@@ -10,8 +10,8 @@
 		"lint-js": "wp-scripts lint-js src/",
 		"lint-style": "wp-scripts lint-style src/",
 		"format": "wp-scripts format src/",
-		"plugin-check": "wp-env run tests-cli --env-cwd=wp-content/plugins/openqr wp plugin check --strict ./",
-		"test:php": "wp-env run tests-cli --env-cwd=wp-content/plugins/openqr phpunit -c phpunit.xml.dist",
+		"plugin-check": "wp-env run tests-cli --env-cwd=wp-content/plugins/openqr-wordpress wp plugin check --strict ./",
+		"test:php": "wp-env run tests-cli --env-cwd=wp-content/plugins/openqr-wordpress vendor/bin/phpunit -c phpunit.xml.dist",
 		"wp-env": "wp-env"
 	},
 	"devDependencies": {

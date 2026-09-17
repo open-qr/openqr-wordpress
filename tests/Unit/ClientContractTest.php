@@ -54,7 +54,7 @@ class ClientContractTest extends OpenQR_TestCase {
 		$this->assertSame( '11111111-2222-3333-4444-555555555555', $headers['idempotency-key'] );
 		$body = json_decode( MockHttp::$requests[0]['body'], true );
 		$this->assertSame( 'https://example.com', $body['destination'] );
-		$this->assertArrayNotHasKey( 'label', $body ); // empty label omitted, not empty-stringed
+		$this->assertSame( 'Flyer', $body['label'] );
 	}
 
 	public function test_marketing_links_carry_acquisition_utms(): void {

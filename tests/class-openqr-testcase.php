@@ -7,15 +7,21 @@
 
 abstract class OpenQR_TestCase extends WP_UnitTestCase {
 
-	use Yoast\WPTestUtils\WPIntegration\TestCaseExtensionTrait;
-
 	public function set_up(): void {
 		parent::set_up();
 		MockHttp::reset();
 
-		// Clean slate.
+		// Clean slate. The container reports a non-production environment (wp-env sets
+		// WP_ENVIRONMENT_TYPE=local), so tests default to the staging override ON; the staging
+		// test flips it back off explicitly.
 		global $wpdb;
-		delete_option( OpenQR_Settings::OPT_SETTINGS );
+		update_option( OpenQR_Settings::OPT_SETTINGS, array(
+			'delete_on_uninstall'       => 0,
+			'editors_can_manage'        => 0,
+			'staging_mutations_enabled' => 1,
+			'default_size'              => 512,
+			'per_user_create_limit'     => 10,
+		), true );
 		delete_option( OpenQR_Settings::OPT_KEY );
 		delete_option( OpenQR_Settings::OPT_ACCOUNT );
 		delete_option( OpenQR_Settings::OPT_AUTH_FAIL );
@@ -67,7 +73,17 @@ abstract class OpenQR_TestCase extends WP_UnitTestCase {
 		if ( null !== $user_id ) {
 			wp_set_current_user( $user_id );
 		}
-		$request = new WP_REST_Request( $method, '/openqr/v1' . $route );
+		$query = array();
+		$path  = '/openqr/v1' . $route;
+		$qpos  = strpos( $path, '?' );
+		if ( false !== $qpos ) {
+			parse_str( substr( $path, $qpos + 1 ), $query );
+			$path = substr( $path, 0, $qpos );
+		}
+		$request = new WP_REST_Request( $method, $path );
+		foreach ( $query as $k => $v ) {
+			$request->set_param( $k, $v );
+		}
 		if ( $body ) {
 			$request->set_body_params( $body );
 		}

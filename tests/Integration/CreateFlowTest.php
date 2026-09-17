@@ -93,7 +93,7 @@ class CreateFlowTest extends OpenQR_TestCase {
 		$this->assertFalse( $result['ok'] );
 		$this->assertSame( 'plan_limit_exceeded', $result['code'] );
 		$this->assertStringContainsString( '/pricing', $result['upsell_url'] );
-		$this->assertStringContainsString( 'utm_source=WordPress', $result['upsell_url'] );
+		$this->assertStringContainsString( 'utm_source=wordpress', $result['upsell_url'] );
 		// The API's own remedy copy reaches the user verbatim.
 		$this->assertStringContainsString( 'Free plan', $result['error'] );
 	}
@@ -161,9 +161,18 @@ class CreateFlowTest extends OpenQR_TestCase {
 	}
 
 	public function test_staging_lock_blocks_remote_writes(): void {
-		add_filter( 'pre_option_staging', '__return_true', 99 );
+		// The container is already a non-production environment; the base TestCase defaults the
+		// override ON, so turn it off to exercise the lock.
+		OpenQR_Settings::update_all( array(
+			'staging_mutations_enabled' => 0,
+			'delete_on_uninstall'       => 0,
+			'editors_can_manage'        => 0,
+			'default_size'              => 512,
+			'per_user_create_limit'     => 10,
+		) );
+		$this->assertTrue( OpenQR_Lifecycle::is_staging(), 'wp-env reports a non-production environment' );
+
 		$result = OpenQR_Codes::create_dynamic( 'https://example.com/x', '', 0 );
-		remove_filter( 'pre_option_staging', '__return_true', 99 );
 
 		$this->assertFalse( $result['ok'] );
 		$this->assertSame( 'staging_locked', $result['code'] );
