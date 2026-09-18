@@ -27,8 +27,10 @@ tests_add_filter(
 tests_add_filter(
 	'init',
 	static function () {
-		// The registry table must exist before any test touches it.
+		// The scaffold (unlike wp-env, which activates the plugin) never fires the
+		// activation hook: create the table and seed the role capabilities here.
 		OpenQR_Registry::maybe_upgrade();
+		OpenQR_Capabilities::seed_roles();
 	},
 	1
 );

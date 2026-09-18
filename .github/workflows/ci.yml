@@ -91,4 +91,6 @@ jobs:
       - name: Run PHPUnit
         env:
           WP_TESTS_DIR: /tmp/wordpress-tests-lib
+          # Match wp-env, which reports `local`: the staging lock tests assume it.
+          WP_ENVIRONMENT_TYPE: local
         run: vendor/bin/phpunit -c phpunit.xml.dist
