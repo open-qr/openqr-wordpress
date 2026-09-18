@@ -4,7 +4,7 @@ Tags: qr code, qr code generator, dynamic qr, wifi qr code, print
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,7 +20,7 @@ OpenQR is a QR code generator built for WordPress sites that use codes in the re
 * **Your codes do not expire.** Disconnect or uninstall and your printed codes keep redirecting. A dynamic code does not quietly die the month you stop paying for a subscription tier.
 * **Fixed-content codes too.** Nine types baked into the image: Wi-Fi cards, contact cards (vCard), WhatsApp, SMS, email, phone, URL, text and map location.
 * **Built for print.** Download PNG up to 4096px or print-ready SVG, with the four-module quiet zone printers expect, plus contrast and density warnings before you commit to paper.
-* **Create from anywhere.** One click on any page, post or product row (WooCommerce included), a Gutenberg block with fallback markup, an `[openqr]` shortcode, and a create screen with helpful placeholders.
+* **Create from anywhere.** One click on any page, post or product row (WooCommerce included), a Gutenberg block with fallback markup, an `[openqr]` shortcode, a create screen with helpful placeholders, and native **Elementor** (Free compatible) and **Avada / Fusion Builder** embeds: "continue on your phone" QR blocks with heading, instruction, button and download options, including a this-page source that resolves each product or listing in a reusable template.
 * **Durable images.** QR images are generated once and stored in your uploads folder: page loads never wait on an external service, and a rendered page keeps working even if openqr.uk is unreachable.
 * **Scan analytics.** Total and recent scans per code, counted when a printed code is scanned. Devices, referrers, regions and hour-by-hour detail live in your OpenQR dashboard.
 * **Per-role permissions.** Choose exactly which roles can create and edit this site's codes; connecting the account and deleting codes stay with administrators.
@@ -81,6 +81,10 @@ No. Scans are counted by OpenQR when a printed code is scanned, as with any Open
 The OpenQR dashboard shows what is shipping next, and the roadmap follows what users ask for: the "Request a feature" button opens a short form on openqr.uk. Sending a request sends your message to the OpenQR team, along with your plugin and WordPress versions so it is actionable; nothing is sent until you press Send on that form.
 
 == Changelog ==
+
+= 1.2.0 =
+* New: native Elementor widget (Free compatible) and Avada / Fusion Builder element, sharing one embed renderer: three content sources (an existing OpenQR code, the current page or product with per-item resolution for reusable templates, or custom URL / fixed content), three presentations (QR only, QR with instruction, QR with button), QR colours, optional download link, and an editor-only "encodes" inspection so the wrong code is caught before publishing.
+* Rendering never creates cloud codes or spends allowances; static embeds are rendered once and stored in your uploads folder like every other durable asset. Button clicks are ordinary links and are never counted as scans.
 
 = 1.0.0 =
 * First release: connect with an API key, create editable and fixed-content QR codes, page/post/product row actions, durable image assets, Gutenberg block and shortcode, scan activity, staging lock and per-role permissions.

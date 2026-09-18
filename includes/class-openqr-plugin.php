@@ -22,6 +22,7 @@ final class OpenQR_Plugin {
 		// load_plugin_textdomain() is deliberately not called.
 
 		OpenQR_Registry::maybe_upgrade();
+		OpenQR_Builder::register();
 		OpenQR_Shortcode::register();
 		OpenQR_Blocks::register();
 		OpenQR_Frontend::register();

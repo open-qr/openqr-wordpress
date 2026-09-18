@@ -281,7 +281,10 @@ final class OpenQR_Api_Client {
 	 * @return OpenQR_Api_Response
 	 */
 	public static function render( string $data, array $args = array() ): OpenQR_Api_Response {
-		$query = build_query(
+		// http_build_query, not build_query: the payload is arbitrary user content (Wi-Fi
+		// separators, mailto params, ?p= permalinks) and an unencoded &, = or # used to
+		// truncate it at the API, silently rendering the wrong code.
+		$query = http_build_query(
 			array_filter(
 				array(
 					'data'   => $data,
