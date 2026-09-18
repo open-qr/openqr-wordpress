@@ -69,12 +69,9 @@ jobs:
         run: npm install && npm run build
 
       - name: Run PHPUnit in wp-env
-        uses: WordPress/wp-env@latest
         env:
           WP_ENV_PHP_VERSION: ${{ matrix.php }}
           WP_ENV_CORE: ${{ matrix.wp == 'latest' && 'WordPress/WordPress' || 'https://wordpress.org/wordpress-6.4.tar.gz' }}
-        with:
-          extensions: ''
-          # wp-env starts the container and runs: phpunit -c phpunit.xml.dist
-          run: |
-            npm run test:php
+        # wp-env is the npm package (there is no official GitHub Action for it); it drives
+        # the Docker daemon preinstalled on the runner and auto-starts the containers.
+        run: npm run test:php
