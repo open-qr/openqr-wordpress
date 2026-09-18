@@ -319,14 +319,7 @@ final class OpenQR_Rest_Proxy {
 				'redirection' => 0,
 			)
 		);
-		if ( is_wp_error( $res ) ) {
-			return new OpenQR_Api_Response( 0, array(), null );
-		}
-		$headers = array();
-		foreach ( (array) wp_remote_retrieve_headers( $res ) as $name => $value ) {
-			$headers[ strtolower( (string) $name ) ] = implode( ', ', (array) $value );
-		}
-		return new OpenQR_Api_Response( (int) wp_remote_retrieve_response_code( $res ), $headers, (string) wp_remote_retrieve_body( $res ) );
+		return OpenQR_Api_Response::from_http( $res );
 	}
 
 	/**

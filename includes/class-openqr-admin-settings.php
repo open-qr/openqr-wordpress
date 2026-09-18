@@ -45,7 +45,9 @@ final class OpenQR_Admin_Settings {
 		}
 		$account   = OpenQR_Settings::account();
 		$connected = OpenQR_Settings::is_connected();
-		$status    = OpenQR_Cache::remember(
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- reflected notice only
+		$error  = isset( $_GET['openqr_error'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['openqr_error'] ) ) : '';
+		$status = OpenQR_Cache::remember(
 			'status',
 			'discovery',
 			static function () {
@@ -65,6 +67,10 @@ final class OpenQR_Admin_Settings {
 				__( 'Your OpenQR connection, who can manage codes, and the safeguards that protect printed material.', 'openqr' )
 			);
 			?>
+
+			<?php if ( '' !== $error ) : ?>
+				<div class="notice notice-error"><p><?php echo esc_html( $error ); ?></p></div>
+			<?php endif; ?>
 
 			<div class="card openqr-card">
 				<h2><?php esc_html_e( 'Connection', 'openqr' ); ?></h2>
@@ -208,12 +214,23 @@ final class OpenQR_Admin_Settings {
 		}
 
 		$connected_now = false;
+		$connect_error = '';
 		if ( isset( $_POST['openqr_api_key'] ) ) {
 			$key = trim( sanitize_text_field( wp_unslash( (string) $_POST['openqr_api_key'] ) ) );
 			if ( preg_match( '/^oqr_[A-Za-z0-9]{10,120}$/', $key ) ) {
 				$response = OpenQR_Rest_Proxy::verify_key( $key );
-				if ( $response->is_ok() ) {
-					OpenQR_Settings::store_connection( $key, $response->body() ?? array() );
+				$account  = $response->body();
+				if ( ! $response->is_ok() ) {
+					$connect_error = sprintf(
+						/* translators: %d: HTTP status code. */
+						__( 'OpenQR could not verify that key (HTTP %d). No changes were saved. Check the key and try again.', 'openqr' ),
+						$response->status()
+					);
+				} elseif ( empty( $account['email'] ) ) {
+					$connect_error = __( 'OpenQR returned an account without an identity, so nothing was saved. This is a version mismatch between the plugin and the API; it has been logged.', 'openqr' );
+					OpenQR_Cache::forget( 'status' );
+				} else {
+					OpenQR_Settings::store_connection( $key, $account );
 					OpenQR_Capabilities::seed_roles();
 					$connected_now = true;
 				}
@@ -239,7 +256,11 @@ final class OpenQR_Admin_Settings {
 			exit;
 		}
 
-		wp_safe_redirect( add_query_arg( 'page', 'openqr-settings', admin_url( 'admin.php' ) ) );
+		$redirect = array( 'page' => 'openqr-settings' );
+		if ( '' !== $connect_error ) {
+			$redirect['openqr_error'] = rawurlencode( $connect_error );
+		}
+		wp_safe_redirect( add_query_arg( $redirect, admin_url( 'admin.php' ) ) );
 		exit;
 	}
 }

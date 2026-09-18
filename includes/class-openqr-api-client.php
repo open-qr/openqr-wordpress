@@ -83,18 +83,7 @@ final class OpenQR_Api_Client {
 
 		$response = wp_remote_request( $url, $request );
 
-		if ( is_wp_error( $response ) ) {
-			return new OpenQR_Api_Response( 0, array(), null );
-		}
-
-		$status  = (int) wp_remote_retrieve_response_code( $response );
-		$raw     = (string) wp_remote_retrieve_body( $response );
-		$headers = array();
-		foreach ( (array) wp_remote_retrieve_headers( $response ) as $name => $value ) {
-			$headers[ strtolower( (string) $name ) ] = implode( ', ', (array) $value );
-		}
-
-		$out = new OpenQR_Api_Response( $status, $headers, $raw );
+		$out = OpenQR_Api_Response::from_http( $response );
 
 		if ( $out->is_auth_error() ) {
 			OpenQR_Settings::mark_auth_failed();
@@ -133,13 +122,7 @@ final class OpenQR_Api_Client {
 		if ( is_wp_error( $response ) ) {
 			return new OpenQR_Api_Response( 0, array(), null );
 		}
-		$status  = (int) wp_remote_retrieve_response_code( $response );
-		$raw     = (string) wp_remote_retrieve_body( $response );
-		$headers = array();
-		foreach ( (array) wp_remote_retrieve_headers( $response ) as $name => $value ) {
-			$headers[ strtolower( (string) $name ) ] = implode( ', ', (array) $value );
-		}
-		return new OpenQR_Api_Response( $status, $headers, $raw );
+		return OpenQR_Api_Response::from_http( $response );
 	}
 
 	/**

@@ -68,4 +68,71 @@ class ApiResponseTest extends OpenQR_TestCase {
 		$this->assertSame( 'A human sentence.', $res->message() );
 		$this->assertSame( 'invalid_request', $res->code() );
 	}
+
+	/**
+	 * Real traffic hands wp_remote results a Requests CaseInsensitiveDictionary; casting
+	 * that object to array mangles every header (private-property keys), which is how a
+	 * valid 200 with a JSON body once arrived with no content-type and a successful
+	 * connect stored an empty identity. from_http() must read it via getAll().
+	 */
+	public function test_from_http_reads_dictionary_headers(): void {
+		if ( ! class_exists( 'WpOrg\Requests\Utility\CaseInsensitiveDictionary' ) ) {
+			$this->markTestSkipped( 'Requests dictionary not available' );
+		}
+		MockHttp::$queue[] = array(
+			'status'  => 200,
+			'raw'     => '{"id":"u1","email":"owner@example.com","plan":"free"}',
+			'headers' => new WpOrg\Requests\Utility\CaseInsensitiveDictionary(
+				array(
+					'Content-Type' => 'application/json',
+					'X-Ray'        => 'ok',
+				)
+			),
+		);
+
+		$res = OpenQR_Api_Client::me();
+
+		$this->assertSame( 200, $res->status() );
+		$this->assertSame( 'application/json', $res->content_type() );
+		$this->assertSame( 'owner@example.com', $res->body()['email'] );
+	}
+
+	public function test_from_http_plain_array_headers_still_work(): void {
+		MockHttp::queue_json(
+			200,
+			array(
+				'id'    => 'u1',
+				'email' => 'owner@example.com',
+			)
+		);
+
+		$res = OpenQR_Api_Client::me();
+
+		$this->assertSame( 'owner@example.com', $res->body()['email'] );
+	}
+
+	public function test_from_http_wp_error_is_unreachable(): void {
+		MockHttp::queue_unreachable();
+
+		$res = OpenQR_Api_Client::me();
+
+		$this->assertSame( 0, $res->status() );
+		$this->assertNull( $res->body() );
+		$this->assertTrue( $res->is_unreachable() );
+	}
+
+	public function test_connect_refuses_to_store_an_identityless_account(): void {
+		// A 200 whose body lacks an email must NOT count as connected.
+		MockHttp::queue_json(
+			200,
+			array(
+				'id'   => 'u1',
+				'plan' => 'free',
+			)
+		);
+
+		OpenQR_Settings::store_connection( 'oqr_testkey0000000000000000000000', OpenQR_Api_Client::me()->body() ?? array() );
+
+		$this->assertFalse( OpenQR_Settings::is_connected(), 'an account without an email is not a connection' );
+	}
 }

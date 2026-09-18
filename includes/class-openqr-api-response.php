@@ -69,6 +69,39 @@ final class OpenQR_Api_Response {
 	}
 
 	/**
+	 * Build from a wp_remote_request result. The header collection is a
+	 * Requests CaseInsensitiveDictionary on real traffic: casting that object to array
+	 * yields one mangled private-property key and silently loses every header (this is
+	 * how a 200 with a valid JSON body once arrived with no content-type, so the body
+	 * never decoded and a successful connect stored an empty identity). getAll() is the
+	 * public plain-array accessor; the fallback covers plain-array mocks.
+	 *
+	 * @param array|\WP_Error $response wp_remote_request result.
+	 * @return self
+	 */
+	public static function from_http( $response ): self {
+		if ( is_wp_error( $response ) ) {
+			return new self( 0, array(), null );
+		}
+		$raw_headers = wp_remote_retrieve_headers( $response );
+		$headers     = array();
+		if ( is_object( $raw_headers ) && method_exists( $raw_headers, 'getAll' ) ) {
+			foreach ( (array) $raw_headers->getAll() as $name => $value ) {
+				$headers[ strtolower( (string) $name ) ] = implode( ', ', (array) $value );
+			}
+		} else {
+			foreach ( (array) $raw_headers as $name => $value ) {
+				$headers[ strtolower( (string) $name ) ] = implode( ', ', (array) $value );
+			}
+		}
+		return new self(
+			(int) wp_remote_retrieve_response_code( $response ),
+			$headers,
+			(string) wp_remote_retrieve_body( $response )
+		);
+	}
+
+	/**
 	 * HTTP status code (0 = network-level failure).
 	 *
 	 * @return int
