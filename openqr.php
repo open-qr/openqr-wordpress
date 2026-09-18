@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name: QR codes by OpenQR
- * Plugin URI:  https://openqr.uk/wordpress
+ * Plugin Name: OpenQR
+ * Plugin URI:  https://github.com/open-qr/openqr-wordpress
  * Description: Create, manage and print QR codes for your pages, posts and products with OpenQR. Dynamic codes stay editable after printing, with scan analytics in your dashboard.
  * Version:     1.0.0
  * Requires at least: 6.4
@@ -11,7 +11,6 @@
  * License:     GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: openqr
- * Domain Path: /languages
  *
  * Requires a free OpenQR account (https://openqr.uk/api) and connects to openqr.uk over HTTPS
  * using an API key you create and store yourself. Nothing is sent to openqr.uk until you connect.
