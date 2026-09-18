@@ -52,4 +52,24 @@ final class OpenQR_Marketing_Link {
 	public static function pricing(): string {
 		return self::build( '/pricing', 'plan-limit' );
 	}
+
+	/**
+	 * The feature-request form on openqr.uk, with the requesting site's context in the query
+	 * string so the form can show (and send) which plugin and WordPress version asked.
+	 *
+	 * @param string $plugin_version Plugin version.
+	 * @param string $wp_version     WordPress version.
+	 * @return string
+	 */
+	public static function feedback_url( string $plugin_version = '', string $wp_version = '' ): string {
+		return self::build(
+			'/feedback',
+			'feature-request',
+			array(
+				'src' => 'wordpress',
+				'pv'  => substr( sanitize_text_field( $plugin_version ), 0, 20 ),
+				'wpv' => substr( sanitize_text_field( $wp_version ), 0, 20 ),
+			)
+		);
+	}
 }

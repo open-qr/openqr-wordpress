@@ -169,15 +169,6 @@ final class OpenQR_Admin_Dashboard {
 	 * @return void
 	 */
 	private static function render_feedback_card(): void {
-		$subject = rawurlencode( 'OpenQR for WordPress - feature request' );
-		$body    = rawurlencode(
-			sprintf(
-				"What would you like OpenQR to do?\n\n\n---\nPlugin: %s\nWordPress: %s\nPHP: %s\n",
-				OPENQR_VERSION,
-				get_bloginfo( 'version' ),
-				PHP_VERSION
-			)
-		);
 		?>
 		<div class="card openqr-card openqr-feedback">
 			<h2><?php esc_html_e( 'Help shape what ships next', 'openqr' ); ?></h2>
@@ -189,10 +180,10 @@ final class OpenQR_Admin_Dashboard {
 				<li><?php esc_html_e( 'More fixed-content types and code styling options', 'openqr' ); ?></li>
 			</ul>
 			<p class="openqr-feedback-actions">
-				<a class="button button-primary" href="<?php echo esc_url( 'mailto:accounts@openqr.uk?subject=' . $subject . '&body=' . $body ); ?>"><?php esc_html_e( 'Request a feature', 'openqr' ); ?></a>
+				<a class="button button-primary" target="_blank" rel="noopener" href="<?php echo esc_url( OpenQR_Marketing_Link::feedback_url( OPENQR_VERSION, get_bloginfo( 'version' ) ) ); ?>"><?php esc_html_e( 'Request a feature', 'openqr' ); ?></a>
 				<a class="button" href="<?php echo esc_url( OpenQR_Marketing_Link::build( '/blog', 'plugin-feedback' ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'See what’s new', 'openqr' ); ?> <span aria-hidden="true">&#8599;</span></a>
 			</p>
-			<p class="description"><?php esc_html_e( 'Request a feature opens your own email app with your versions filled in; nothing is sent until you send it.', 'openqr' ); ?></p>
+			<p class="description"><?php esc_html_e( 'Opens a short form on openqr.uk: your message goes straight to the OpenQR team, with your plugin and WordPress versions attached.', 'openqr' ); ?></p>
 		</div>
 		<?php
 	}

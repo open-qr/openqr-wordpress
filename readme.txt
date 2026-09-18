@@ -78,7 +78,7 @@ No. Scans are counted by OpenQR when a printed code is scanned, as with any Open
 
 == Help shape OpenQR ==
 
-The OpenQR dashboard shows what is shipping next, and the roadmap follows what users ask for: request a feature right from the plugin (it opens your own email app; nothing is sent until you send it).
+The OpenQR dashboard shows what is shipping next, and the roadmap follows what users ask for: the "Request a feature" button opens a short form on openqr.uk. Sending a request sends your message to the OpenQR team, along with your plugin and WordPress versions so it is actionable; nothing is sent until you press Send on that form.
 
 == Changelog ==
 
