@@ -1,11 +1,13 @@
 <?php
 /**
- * Capability model. Explicit, grantable, object-scoped. Two capabilities:
+ * Capability model. Explicit, grantable, object-scoped.
+ *
+ * Two capabilities:
  *
  *   openqr_manage_connection - connect/disconnect, browse/import the whole OpenQR account,
- *                              delete remote codes. Administrators only by default.
+ *                              delete remote codes. Administrators only, always.
  *   openqr_manage_codes      - create/edit THIS SITE's linked codes. Administrators always;
- *                              editors when the Settings toggle grants it deliberately.
+ *                              other roles when the Settings role picker grants it deliberately.
  *
  * Managing a code linked to post P additionally requires edit_post on P. Delegated users see
  * ONLY the local registry, never the account library: repointing a printed code is treated as
@@ -38,10 +40,46 @@ final class OpenQR_Capabilities {
 			$admin->add_cap( self::MANAGE_CONNECTION );
 			$admin->add_cap( self::MANAGE_CODES );
 		}
-		if ( OpenQR_Settings::editors_can_manage() ) {
-			$editor = get_role( 'editor' );
-			if ( $editor ) {
-				$editor->add_cap( self::MANAGE_CODES );
+		self::sync_codes_caps( OpenQR_Settings::codes_roles() );
+	}
+
+	/**
+	 * Roles that may be granted openqr_manage_codes: every role that edits content, minus
+	 * administrator (which always has it). slug => display name.
+	 *
+	 * @return array<string, string>
+	 */
+	public static function grantable_roles(): array {
+		$out = array();
+		foreach ( wp_roles()->roles as $slug => $data ) {
+			if ( 'administrator' === $slug || empty( $data['capabilities']['edit_posts'] ) ) {
+				continue;
+			}
+			$out[ $slug ] = (string) ( $data['name'] ?? $slug );
+		}
+		return $out;
+	}
+
+	/**
+	 * Make the stored role list true on the roles themselves: grant listed roles, revoke the
+	 * rest. Administrator and openqr_manage_connection are never touched here.
+	 *
+	 * @param array<int, string> $granted Role slugs that should hold the capability.
+	 * @return void
+	 */
+	public static function sync_codes_caps( array $granted ): void {
+		foreach ( array_keys( wp_roles()->roles ) as $slug ) {
+			if ( 'administrator' === $slug ) {
+				continue;
+			}
+			$role = get_role( $slug );
+			if ( ! $role ) {
+				continue;
+			}
+			if ( in_array( $slug, $granted, true ) ) {
+				$role->add_cap( self::MANAGE_CODES );
+			} else {
+				$role->remove_cap( self::MANAGE_CODES );
 			}
 		}
 	}

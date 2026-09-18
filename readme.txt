@@ -2,7 +2,7 @@
 Contributors: openqr
 Tags: qr code, qr codes, qr generator, dynamic qr, print
 Requires at least: 6.4
-Tested up to: 6.8
+Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.0.0
 License: GPLv2 or later
@@ -23,7 +23,7 @@ Create, manage and print QR codes for your pages, posts and products. Dynamic co
 * **Download for print** — PNG at up to 4096px and print-ready SVG. Four-module quiet zone by default, with contrast and density warnings before you print.
 * **Block + shortcode** — `openqr/qr` Gutenberg block (with fallback markup that survives deactivation) and an `[openqr]` shortcode.
 * **Scan activity** — total and recent scans per code; devices, referrers and places on Pro.
-* **Sensible permissions** — editors can manage this site's codes only when you allow it; connecting the account and deleting codes stays with administrators.
+* **Per-role permissions** — choose exactly which roles can create and edit this site's codes; connecting the account and deleting codes stay with administrators.
 * **Staging-safe** — a cloned site cannot repoint your live codes until you explicitly allow it.
 
 Your QR codes belong to your OpenQR account, so they keep working in the dashboard, the REST API and everywhere else OpenQR works.
@@ -63,10 +63,14 @@ No. Scans are counted by OpenQR when a printed code is scanned, as with any Open
 
 == Screenshots ==
 
-1. Create a QR code for any page from the page list.
-2. Your QR codes: status, short links and downloads.
-3. Create screen: editable codes and fixed-content types.
+1. Dashboard: usage, recent codes and what is shipping next.
+2. Your QR codes: status, short links, inline editing and downloads.
+3. Create screen: editable codes, plus nine fixed-content types with helpful placeholders.
 4. Scan activity per code.
+
+== Help shape OpenQR ==
+
+The OpenQR dashboard shows what is shipping next, and the roadmap follows what users ask for: request a feature right from the plugin (it opens your own email app; nothing is sent until you send it).
 
 == Changelog ==
 

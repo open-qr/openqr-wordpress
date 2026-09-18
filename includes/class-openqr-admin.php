@@ -105,6 +105,40 @@ final class OpenQR_Admin {
 	}
 
 	/**
+	 * Branded page header shared by every OpenQR screen: logo, title, lede, right-aligned
+	 * actions. Renders the screen's single h1.
+	 *
+	 * @param string                           $title   Page title.
+	 * @param string                           $lede    One line under the title.
+	 * @param array<int, array<string, mixed>> $actions Actions: url, label, primary, external.
+	 * @return void
+	 */
+	public static function hero( string $title, string $lede = '', array $actions = array() ): void {
+		echo '<div class="openqr-hero"><div class="openqr-hero-main">';
+		echo '<h1 class="openqr-hero-title">' . self::logo( 28 ) . esc_html( $title ) . '</h1>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG asset URL
+		if ( '' !== $lede ) {
+			echo '<p class="openqr-hero-lede">' . esc_html( $lede ) . '</p>';
+		}
+		echo '</div>';
+		if ( $actions ) {
+			echo '<div class="openqr-hero-actions">';
+			foreach ( $actions as $action ) {
+				$external = ! empty( $action['external'] );
+				printf(
+					'<a class="button%1$s" href="%2$s"%3$s>%4$s%5$s</a>',
+					! empty( $action['primary'] ) ? ' button-primary button-hero' : ' button-hero',
+					esc_url( (string) $action['url'] ),
+					$external ? ' target="_blank" rel="noopener"' : '',
+					esc_html( (string) $action['label'] ),
+					$external ? ' <span aria-hidden="true">&#8599;</span>' : ''
+				);
+			}
+			echo '</div>';
+		}
+		echo '</div>';
+	}
+
+	/**
 	 * URL helpers shared by screens.
 	 *
 	 * @param array<string, mixed> $args Extra query args.
@@ -144,17 +178,39 @@ final class OpenQR_Admin {
 	}
 
 	/**
-	 * The brand mark, inlined so admin pages never depend on an external asset request.
+	 * The brand mark, inlined into the page: the wp.org repo does not permit SVG files, and
+	 * inline markup also means the admin never makes a request for the asset.
 	 *
 	 * @param int $size Pixel size.
 	 * @return string
 	 */
 	public static function logo( int $size = 20 ): string {
-		return sprintf(
-			'<img src="%s" width="%d" height="%d" alt="" class="openqr-logo" />',
-			esc_url( OPENQR_URL . 'assets/icon.svg' ),
-			$size,
-			$size
-		);
+		static $svg = null;
+		if ( null === $svg ) {
+			$svg = <<<'SVG'
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-hidden="true" focusable="false" class="openqr-logo" %1$s>
+  <g fill="none" stroke="#07B1B0" stroke-width="20" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24,86 L24,58 Q24,24 58,24 L86,24"/>
+    <path d="M154,24 L182,24 Q216,24 216,58 L216,86"/>
+    <path d="M216,154 L216,182 Q216,216 182,216 L154,216"/>
+    <path d="M86,216 L58,216 Q24,216 24,182 L24,154"/>
+  </g>
+  <g fill="#232E3A">
+    <rect x="69" y="69" width="36" height="36" rx="5" fill="none" stroke="#232E3A" stroke-width="10"/>
+    <rect x="79" y="79" width="16" height="16" rx="2.5"/>
+    <rect x="135" y="69" width="36" height="36" rx="5" fill="none" stroke="#232E3A" stroke-width="10"/>
+    <rect x="145" y="79" width="16" height="16" rx="2.5"/>
+    <rect x="69" y="135" width="36" height="36" rx="5" fill="none" stroke="#232E3A" stroke-width="10"/>
+    <rect x="79" y="145" width="16" height="16" rx="2.5"/>
+    <rect x="130" y="130" width="16" height="16" rx="2.5"/>
+    <rect x="160" y="130" width="16" height="16" rx="2.5"/>
+    <rect x="145" y="145" width="16" height="16" rx="2.5"/>
+    <rect x="130" y="160" width="16" height="16" rx="2.5"/>
+    <rect x="160" y="160" width="16" height="16" rx="2.5"/>
+  </g>
+</svg>
+SVG;
+		}
+		return sprintf( $svg, sprintf( 'width="%d" height="%d"', $size, $size ) );
 	}
 }

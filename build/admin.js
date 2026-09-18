@@ -49,6 +49,18 @@
 	}
 
 	ready( function () {
+		// ── Notices: undo wp-admin's move ────────────────────────────────────────
+		// Core common.js relocates every .notice to directly after the first h1 in .wrap;
+		// our h1 lives inside the branded hero, so put the notices back under it.
+		document
+			.querySelectorAll( '.openqr-hero-main .notice' )
+			.forEach( function ( notice ) {
+				const hero = notice.closest( '.openqr-hero' );
+				if ( hero && hero.parentNode ) {
+					hero.parentNode.insertBefore( notice, hero.nextSibling );
+				}
+			} );
+
 		// ── Create screen: tabs + static type switcher ──────────────────────────
 		const tabs = document.querySelectorAll( '.openqr-tabs .nav-tab' );
 		tabs.forEach( function ( tab ) {
@@ -76,6 +88,35 @@
 			};
 			typeSelect.addEventListener( 'change', syncType );
 			syncType();
+
+			// Conditional fields (e.g. the Wi-Fi password hides for "No password"): the
+			// definition names the sibling select and the value that hides the field.
+			document
+				.querySelectorAll( '.openqr-field--conditional' )
+				.forEach( function ( field ) {
+					const box = field.closest( '.openqr-type-fields' );
+					if ( ! box ) {
+						return;
+					}
+					const control = box.querySelector(
+						'[name$="[' + field.dataset.showsWhen + ']"]'
+					);
+					if ( ! control ) {
+						return;
+					}
+					const sync = function () {
+						const hide = control.value === field.dataset.showsNot;
+						field.hidden = hide;
+						field
+							.querySelectorAll( 'input, select, textarea' )
+							.forEach( function ( el ) {
+								el.disabled = hide;
+							} );
+					};
+					control.addEventListener( 'change', sync );
+					sync();
+				} );
+
 			// Required flags only apply to the visible type's fields.
 			document
 				.querySelector( '#openqr-tab-static' )
@@ -84,11 +125,11 @@
 					form.querySelectorAll( '.openqr-type-fields' ).forEach(
 						function ( box ) {
 							if ( box.dataset.type !== typeSelect.value ) {
-								box.querySelectorAll( 'input' ).forEach(
-									function ( input ) {
-										input.disabled = true;
-									}
-								);
+								box.querySelectorAll(
+									'input, select, textarea'
+								).forEach( function ( control ) {
+									control.disabled = true;
+								} );
 							}
 						}
 					);

@@ -35,7 +35,12 @@ final class OpenQR_Admin_Analytics {
 		$rows = OpenQR_Registry::page( 100, 0 );
 		?>
 		<div class="wrap openqr-wrap">
-			<h1 class="openqr-title"><?php echo OpenQR_Admin::logo( 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> <?php esc_html_e( 'Activity', 'openqr' ); ?></h1>
+			<?php
+			OpenQR_Admin::hero(
+				__( 'Activity', 'openqr' ),
+				__( 'Scans per code: totals and the last seven days, counted by OpenQR when a printed code is scanned.', 'openqr' )
+			);
+			?>
 
 			<form method="get">
 				<input type="hidden" name="page" value="openqr-analytics" />

@@ -118,7 +118,7 @@ class LifecycleTest extends OpenQR_TestCase {
 		$row  = OpenQR_Registry::get_by_code_id( 'code-x1' );
 		$path = wp_upload_dir()['basedir'] . '/openqr/code-x1/' . $row['style_hash'];
 		wp_mkdir_p( $path );
-		file_put_contents( $path . '/qr-1024.png', $this->fake_png() );
+		file_put_contents( $path . '/qr-1024.png', $this->fake_png() ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- test fixture bytes, not a template write
 
 		$html = do_shortcode( '[openqr code="code-x1"]' );
 		$this->assertStringNotContainsString( '<script>', $html );
@@ -143,7 +143,7 @@ class LifecycleTest extends OpenQR_TestCase {
 		$row  = OpenQR_Registry::get_by_code_id( 'code-b1' );
 		$path = wp_upload_dir()['basedir'] . '/openqr/code-b1/' . $row['style_hash'];
 		wp_mkdir_p( $path );
-		file_put_contents( $path . '/qr-1024.png', $this->fake_png() );
+		file_put_contents( $path . '/qr-1024.png', $this->fake_png() ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- test fixture bytes, not a template write
 
 		$html = OpenQR_Blocks::render(
 			array(

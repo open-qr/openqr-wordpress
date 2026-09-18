@@ -21,7 +21,13 @@ final class OpenQR_Admin_Create {
 	public static function register(): void {}
 
 	/**
-	 * Per-type field definitions (mirror lib/payloads.ts on openqr.uk).
+	 * Per-type field definitions. Mirrors the website's generator field for field
+	 * (components/generator/payload-fields.tsx on openqr.uk, built by lib/payloads.ts):
+	 * the same labels, placeholders and Wi-Fi options, so muscle memory carries over.
+	 *
+	 * Field shape: label, input (text|url|tel|email|textarea|select|checkbox), required,
+	 * placeholder, help, options (select), show_when (hide this field unless the named
+	 * sibling select holds the given value).
 	 *
 	 * @return array<string, array<string, mixed>>
 	 */
@@ -29,65 +35,202 @@ final class OpenQR_Admin_Create {
 		return array(
 			'url'      => array(
 				'label'  => __( 'Website', 'openqr' ),
-				'fields' => array( 'url' => array( __( 'URL', 'openqr' ), 'url', true ) ),
+				'fields' => array(
+					'url' => array(
+						'label'       => __( 'URL', 'openqr' ),
+						'input'       => 'url',
+						'required'    => true,
+						'placeholder' => 'example.com',
+						'help'        => __( 'The https:// is added for you if you leave it off.', 'openqr' ),
+					),
+				),
 			),
 			'text'     => array(
 				'label'  => __( 'Text', 'openqr' ),
-				'fields' => array( 'text' => array( __( 'Text', 'openqr' ), 'text', true ) ),
+				'fields' => array(
+					'text' => array(
+						'label'       => __( 'Text', 'openqr' ),
+						'input'       => 'text',
+						'required'    => true,
+						'placeholder' => __( 'Shorter scans better: the more data, the denser the code.', 'openqr' ),
+					),
+				),
 			),
 			'email'    => array(
 				'label'  => __( 'Email', 'openqr' ),
 				'fields' => array(
-					'email'   => array( __( 'Email address', 'openqr' ), 'email', true ),
-					'subject' => array( __( 'Subject (optional)', 'openqr' ), 'text', false ),
-					'body'    => array( __( 'Body (optional)', 'openqr' ), 'text', false ),
+					'email'   => array(
+						'label'       => __( 'Email address', 'openqr' ),
+						'input'       => 'email',
+						'required'    => true,
+						'placeholder' => 'hello@example.com',
+					),
+					'subject' => array(
+						'label'       => __( 'Subject (optional)', 'openqr' ),
+						'input'       => 'text',
+						'required'    => false,
+						'placeholder' => __( 'e.g. Table booking', 'openqr' ),
+					),
+					'body'    => array(
+						'label'       => __( 'Message (optional)', 'openqr' ),
+						'input'       => 'textarea',
+						'required'    => false,
+						'placeholder' => __( 'Pre-filled when someone scans', 'openqr' ),
+					),
 				),
 			),
 			'phone'    => array(
 				'label'  => __( 'Phone', 'openqr' ),
-				'fields' => array( 'phone' => array( __( 'Phone number', 'openqr' ), 'tel', true ) ),
+				'fields' => array(
+					'phone' => array(
+						'label'       => __( 'Phone number', 'openqr' ),
+						'input'       => 'tel',
+						'required'    => true,
+						'placeholder' => '+44 7000 000000',
+					),
+				),
 			),
 			'sms'      => array(
 				'label'  => __( 'SMS', 'openqr' ),
 				'fields' => array(
-					'phone'   => array( __( 'Phone number', 'openqr' ), 'tel', true ),
-					'message' => array( __( 'Message (optional)', 'openqr' ), 'text', false ),
+					'phone'   => array(
+						'label'       => __( 'Phone number', 'openqr' ),
+						'input'       => 'tel',
+						'required'    => true,
+						'placeholder' => '+44 7000 000000',
+					),
+					'message' => array(
+						'label'       => __( 'Message (optional)', 'openqr' ),
+						'input'       => 'textarea',
+						'required'    => false,
+						'placeholder' => __( 'Pre-filled when someone scans', 'openqr' ),
+					),
 				),
 			),
 			'whatsapp' => array(
 				'label'  => __( 'WhatsApp', 'openqr' ),
 				'fields' => array(
-					'phone'   => array( __( 'Number (country code, digits only)', 'openqr' ), 'tel', true ),
-					'message' => array( __( 'Message (optional)', 'openqr' ), 'text', false ),
+					'phone'   => array(
+						'label'       => __( 'Phone number (with country code)', 'openqr' ),
+						'input'       => 'tel',
+						'required'    => true,
+						'placeholder' => '+44 7000 000000',
+						'help'        => __( 'Spaces and the + are fine: the code keeps only the digits.', 'openqr' ),
+					),
+					'message' => array(
+						'label'       => __( 'Message (optional)', 'openqr' ),
+						'input'       => 'textarea',
+						'required'    => false,
+						'placeholder' => __( 'Pre-filled when someone scans', 'openqr' ),
+					),
 				),
 			),
 			'wifi'     => array(
 				'label'  => __( 'Wi-Fi', 'openqr' ),
 				'fields' => array(
-					'ssid'       => array( __( 'Network name (SSID)', 'openqr' ), 'text', true ),
-					'password'   => array( __( 'Password', 'openqr' ), 'text', false ),
-					'encryption' => array( __( 'Security (WPA, WEP or nopass)', 'openqr' ), 'text', false ),
-					'hidden'     => array( __( 'Hidden network (true/false)', 'openqr' ), 'text', false ),
+					'ssid'       => array(
+						'label'       => __( 'Network name (SSID)', 'openqr' ),
+						'input'       => 'text',
+						'required'    => true,
+						'placeholder' => 'My Wi-Fi',
+					),
+					'encryption' => array(
+						'label'    => __( 'Security', 'openqr' ),
+						'input'    => 'select',
+						'required' => false,
+						'options'  => array(
+							'WPA'    => __( 'WPA / WPA2 / WPA3', 'openqr' ),
+							'WEP'    => __( 'WEP', 'openqr' ),
+							'nopass' => __( 'No password', 'openqr' ),
+						),
+					),
+					'password'   => array(
+						'label'       => __( 'Password', 'openqr' ),
+						'input'       => 'text',
+						'required'    => false,
+						'placeholder' => '••••••••',
+						'show_when'   => array( 'encryption', 'nopass' ),
+					),
+					'hidden'     => array(
+						'label'    => __( 'Hidden network', 'openqr' ),
+						'input'    => 'checkbox',
+						'required' => false,
+					),
 				),
 			),
 			'geo'      => array(
 				'label'  => __( 'Location', 'openqr' ),
 				'fields' => array(
-					'lat' => array( __( 'Latitude', 'openqr' ), 'text', true ),
-					'lng' => array( __( 'Longitude', 'openqr' ), 'text', true ),
+					'lat' => array(
+						'label'       => __( 'Latitude', 'openqr' ),
+						'input'       => 'text',
+						'required'    => true,
+						'placeholder' => '51.5074',
+						'help'        => __( 'In Google Maps, right-click the spot and copy the coordinates.', 'openqr' ),
+					),
+					'lng' => array(
+						'label'       => __( 'Longitude', 'openqr' ),
+						'input'       => 'text',
+						'required'    => true,
+						'placeholder' => '-0.1278',
+					),
 				),
 			),
 			'vcard'    => array(
 				'label'  => __( 'Contact card', 'openqr' ),
 				'fields' => array(
-					'firstName' => array( __( 'First name', 'openqr' ), 'text', false ),
-					'lastName'  => array( __( 'Last name', 'openqr' ), 'text', false ),
-					'org'       => array( __( 'Organisation', 'openqr' ), 'text', false ),
-					'title'     => array( __( 'Job title', 'openqr' ), 'text', false ),
-					'phone'     => array( __( 'Phone', 'openqr' ), 'tel', false ),
-					'email'     => array( __( 'Email', 'openqr' ), 'email', false ),
-					'url'       => array( __( 'Website', 'openqr' ), 'url', false ),
-					'address'   => array( __( 'Address', 'openqr' ), 'text', false ),
+					'firstName' => array(
+						'label'       => __( 'First name', 'openqr' ),
+						'input'       => 'text',
+						'required'    => false,
+						'placeholder' => 'Jane',
+						'half'        => true,
+					),
+					'lastName'  => array(
+						'label'       => __( 'Last name', 'openqr' ),
+						'input'       => 'text',
+						'required'    => false,
+						'placeholder' => 'Doe',
+						'half'        => true,
+					),
+					'phone'     => array(
+						'label'       => __( 'Phone number', 'openqr' ),
+						'input'       => 'tel',
+						'required'    => false,
+						'placeholder' => '+44 7000 000000',
+					),
+					'email'     => array(
+						'label'       => __( 'Email', 'openqr' ),
+						'input'       => 'email',
+						'required'    => false,
+						'placeholder' => 'jane@example.com',
+					),
+					'org'       => array(
+						'label'       => __( 'Company (optional)', 'openqr' ),
+						'input'       => 'text',
+						'required'    => false,
+						'placeholder' => 'Acme Ltd',
+						'half'        => true,
+					),
+					'title'     => array(
+						'label'       => __( 'Job title (optional)', 'openqr' ),
+						'input'       => 'text',
+						'required'    => false,
+						'placeholder' => 'Designer',
+						'half'        => true,
+					),
+					'url'       => array(
+						'label'       => __( 'Website (optional)', 'openqr' ),
+						'input'       => 'url',
+						'required'    => false,
+						'placeholder' => 'example.com',
+					),
+					'address'   => array(
+						'label'       => __( 'Address (optional)', 'openqr' ),
+						'input'       => 'text',
+						'required'    => false,
+						'placeholder' => '123 High St, London',
+					),
 				),
 			),
 		);
@@ -114,7 +257,18 @@ final class OpenQR_Admin_Create {
 			data-post-id="<?php echo esc_attr( (string) $prefill_post ); ?>"
 			data-prefill-url="<?php echo esc_attr( $prefill_url ); ?>"
 			data-keys-url="<?php echo esc_attr( OpenQR_Marketing_Link::keys_page() ); ?>">
-			<h1 class="openqr-title"><?php echo OpenQR_Admin::logo( 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> <?php esc_html_e( 'Create QR', 'openqr' ); ?></h1>
+			<?php
+			OpenQR_Admin::hero(
+				__( 'Create QR', 'openqr' ),
+				__( 'Make a code, download it, print it. Editable codes can be re-pointed after printing; fixed content cannot.', 'openqr' ),
+				array(
+					array(
+						'url'   => OpenQR_Admin::codes_url(),
+						'label' => __( 'Your codes', 'openqr' ),
+					),
+				)
+			);
+			?>
 
 			<?php if ( '' !== $error ) : ?>
 				<div class="notice notice-error"><p><?php echo esc_html( $error ); ?></p></div>
@@ -139,7 +293,8 @@ final class OpenQR_Admin_Create {
 				<p class="openqr-tab-lede"><?php esc_html_e( 'A dynamic code carries a short link you can re-point later: print it once, change the destination whenever you like. Scans are counted.', 'openqr' ); ?></p>
 				<label class="openqr-field">
 					<span><?php esc_html_e( 'Destination URL', 'openqr' ); ?></span>
-					<input type="url" name="destination" required class="regular-text" placeholder="https://" value="<?php echo esc_attr( $prefill_url ); ?>" />
+					<input type="url" name="destination" required class="regular-text" placeholder="https://example.com/spring-offer" value="<?php echo esc_attr( $prefill_url ); ?>" />
+					<p class="description"><?php esc_html_e( 'Where people land when they scan. Change it any time after printing, without reprinting.', 'openqr' ); ?></p>
 				</label>
 				<label class="openqr-field">
 					<span><?php esc_html_e( 'Name this placement', 'openqr' ); ?></span>
@@ -167,7 +322,7 @@ final class OpenQR_Admin_Create {
 				<input type="hidden" name="action" value="openqr_create_static" />
 				<?php wp_nonce_field( 'openqr_create_static' ); ?>
 				<p class="openqr-tab-lede"><?php esc_html_e( 'Fixed content baked into the image: a Wi-Fi card, a contact card, a plain link. No short link, no scan counts, and the content cannot change after printing.', 'openqr' ); ?></p>
-				<label class="openqr-field">
+				<label class="openqr-field openqr-field--narrow">
 					<span><?php esc_html_e( 'Type', 'openqr' ); ?></span>
 					<select name="type" id="openqr-static-type">
 						<?php foreach ( $types as $id => $def ) : ?>
@@ -178,12 +333,7 @@ final class OpenQR_Admin_Create {
 				<div class="openqr-static-fields">
 					<?php foreach ( $types as $id => $def ) : ?>
 						<div class="openqr-type-fields" data-type="<?php echo esc_attr( $id ); ?>" hidden>
-							<?php foreach ( $def['fields'] as $field => $meta ) : ?>
-								<label class="openqr-field">
-									<span><?php echo esc_html( (string) $meta[0] ); ?></span>
-									<input type="<?php echo esc_attr( (string) $meta[1] ); ?>" class="regular-text" name="fields[<?php echo esc_attr( $id ); ?>][<?php echo esc_attr( $field ); ?>]"<?php echo $meta[2] ? ' data-required="1"' : ''; ?> />
-								</label>
-							<?php endforeach; ?>
+							<?php self::render_type_fields( $id, $def['fields'] ); ?>
 						</div>
 					<?php endforeach; ?>
 				</div>
@@ -195,6 +345,110 @@ final class OpenQR_Admin_Create {
 			</form>
 		</div>
 		<?php
+	}
+
+	/**
+	 * One static type's field controls, from the shared definition. Output only: the API
+	 * builds the payload from these fields, exactly as the website generator does.
+	 *
+	 * @param string                              $type_id Type slug.
+	 * @param array<string, array<string, mixed>> $fields  Field definitions.
+	 * @return void
+	 */
+	private static function render_type_fields( string $type_id, array $fields ): void {
+		foreach ( $fields as $name => $meta ) {
+			$input       = (string) ( $meta['input'] ?? 'text' );
+			$required    = ! empty( $meta['required'] );
+			$placeholder = (string) ( $meta['placeholder'] ?? '' );
+			$help        = (string) ( $meta['help'] ?? '' );
+			$half        = ! empty( $meta['half'] );
+			$dom_id      = 'openqr-f-' . $type_id . '-' . $name;
+			$name_attr   = 'fields[' . esc_attr( $type_id ) . '][' . esc_attr( $name ) . ']';
+			$class       = 'openqr-field' . ( $half ? ' openqr-field--half' : '' );
+
+			if ( isset( $meta['show_when'] ) ) {
+				$class .= ' openqr-field--conditional';
+				printf(
+					'<div class="%s" data-shows-when="%s" data-shows-not="%s">',
+					esc_attr( $class ),
+					esc_attr( (string) $meta['show_when'][0] ),
+					esc_attr( (string) $meta['show_when'][1] )
+				);
+			} else {
+				printf( '<div class="%s">', esc_attr( $class ) );
+			}
+
+			if ( 'checkbox' === $input ) {
+				printf(
+					'<input type="checkbox" value="1" id="%s" name="%s" /><label for="%s">%s</label>',
+					esc_attr( $dom_id ),
+					$name_attr, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from esc_attr parts above
+					esc_attr( $dom_id ),
+					esc_html( (string) $meta['label'] )
+				);
+			} else {
+				echo '<label for="' . esc_attr( $dom_id ) . '"><span>' . esc_html( (string) $meta['label'] ) . '</span>';
+				if ( 'select' === $input ) {
+					printf( '<select id="%s" name="%s">', esc_attr( $dom_id ), $name_attr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from esc_attr parts above
+					$first = true;
+					foreach ( (array) ( $meta['options'] ?? array() ) as $value => $option_label ) {
+						printf(
+							'<option value="%s"%s>%s</option>',
+							esc_attr( (string) $value ),
+							$first ? ' selected' : '',
+							esc_html( (string) $option_label )
+						);
+						$first = false;
+					}
+					echo '</select>';
+				} elseif ( 'textarea' === $input ) {
+					printf(
+						'<textarea id="%s" name="%s" rows="2" class="regular-text" placeholder="%s"></textarea>',
+						esc_attr( $dom_id ),
+						$name_attr, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from esc_attr parts above
+						esc_attr( $placeholder )
+					);
+				} else {
+					printf(
+						'<input type="%s" id="%s" name="%s" class="regular-text" placeholder="%s"%s />',
+						esc_attr( $input ),
+						esc_attr( $dom_id ),
+						$name_attr, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from esc_attr parts above
+						esc_attr( $placeholder ),
+						$required ? ' data-required="1"' : ''
+					);
+				}
+				echo '</label>';
+			}
+
+			if ( '' !== $help ) {
+				echo '<p class="description">' . esc_html( $help ) . '</p>';
+			}
+			echo '</div>';
+		}
+	}
+
+	/**
+	 * Allowlist pass from raw form input to API field values: only fields the type defines
+	 * are forwarded, under their exact API names (the API's field keys are case-sensitive,
+	 * e.g. firstName). Message bodies keep their newlines; single-line fields do not.
+	 *
+	 * @param string               $type Type slug.
+	 * @param array<string, mixed> $raw  Raw submitted values for this type.
+	 * @return array<string, string>
+	 */
+	public static function collect_static_fields( string $type, array $raw ): array {
+		$defined = self::static_types()[ $type ]['fields'] ?? array();
+		$fields  = array();
+		foreach ( $defined as $key => $meta ) {
+			if ( ! isset( $raw[ $key ] ) || '' === (string) $raw[ $key ] ) {
+				continue;
+			}
+			$fields[ $key ] = 'textarea' === ( $meta['input'] ?? '' )
+				? sanitize_textarea_field( (string) $raw[ $key ] )
+				: sanitize_text_field( (string) $raw[ $key ] );
+		}
+		return $fields;
 	}
 
 	/**
@@ -252,13 +506,7 @@ final class OpenQR_Admin_Create {
 			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized per field below
 			$raw = wp_unslash( $_POST['fields'][ $type ] );
 		}
-		$fields = array();
-		foreach ( $raw as $k => $v ) {
-			$key = sanitize_key( (string) $k );
-			if ( '' !== $key && '' !== (string) $v ) {
-				$fields[ $key ] = sanitize_text_field( (string) $v );
-			}
-		}
+		$fields = self::collect_static_fields( $type, $raw );
 
 		$result = OpenQR_Codes::create_static( $type, $fields, $label, $post_id );
 		if ( empty( $result['ok'] ) ) {

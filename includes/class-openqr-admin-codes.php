@@ -46,9 +46,19 @@ final class OpenQR_Admin_Codes {
 		$pages    = (int) ceil( $total / $per_page );
 		?>
 		<div class="wrap openqr-wrap">
-			<h1 class="openqr-title"><?php echo OpenQR_Admin::logo( 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> <?php esc_html_e( 'QR Codes', 'openqr' ); ?>
-				<a class="page-title-action" href="<?php echo esc_url( OpenQR_Admin::create_url() ); ?>"><?php esc_html_e( 'Create QR', 'openqr' ); ?></a>
-			</h1>
+			<?php
+			OpenQR_Admin::hero(
+				__( 'QR Codes', 'openqr' ),
+				__( 'Every code made on this site. Edit a destination any time: printed copies follow without reprinting.', 'openqr' ),
+				array(
+					array(
+						'url'     => OpenQR_Admin::create_url(),
+						'label'   => __( 'Create QR', 'openqr' ),
+						'primary' => true,
+					),
+				)
+			);
+			?>
 
 			<?php if ( 'created' === $result ) : ?>
 				<div class="notice notice-success"><p><strong><?php esc_html_e( 'Your QR code is ready.', 'openqr' ); ?></strong>
@@ -86,6 +96,7 @@ final class OpenQR_Admin_Codes {
 				</p>
 			</form>
 
+			<div class="openqr-table-wrap">
 			<table class="widefat striped openqr-table">
 				<thead>
 					<tr>
@@ -106,6 +117,7 @@ final class OpenQR_Admin_Codes {
 				<?php endforeach; ?>
 				</tbody>
 			</table>
+			</div>
 
 			<?php if ( $pages > 1 && ! $post_id ) : ?>
 				<div class="tablenav"><div class="tablenav-pages">

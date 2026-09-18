@@ -513,8 +513,8 @@ final class OpenQR_Rest_Proxy {
 			return self::fail( 'openqr_reconnect', __( 'Connect your OpenQR account first.', 'openqr' ), 401 );
 		}
 		$raw_size = $request->get_param( 'size' );
-		$size = (int) ( $raw_size ? $raw_size : 512 );
-		$args = array(
+		$size     = (int) ( $raw_size ? $raw_size : 512 );
+		$args     = array(
 			'format' => 'png',
 			'size'   => max( 96, min( 1024, $size ) ),
 		);

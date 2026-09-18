@@ -158,6 +158,6 @@ final class OpenQR_Lifecycle {
 		delete_option( OpenQR_Settings::OPT_AUTH_FAIL );
 		delete_option( OpenQR_Cache::INDEX_OPTION );
 		// The index option covers object-cache stores; this sweep covers DB-backed transients.
-		$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\\_transient\\_openqr:%' OR option_name LIKE '\\_transient\\_timeout\\_openqr:%'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.Schema, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\\_transient\\_openqr:%' OR option_name LIKE '\\_transient\\_timeout\\_openqr:%'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- transient sweep, no user input.
 	}
 }

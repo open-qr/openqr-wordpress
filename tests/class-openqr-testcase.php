@@ -15,13 +15,17 @@ abstract class OpenQR_TestCase extends WP_UnitTestCase {
 		// WP_ENVIRONMENT_TYPE=local), so tests default to the staging override ON; the staging
 		// test flips it back off explicitly.
 		global $wpdb;
-		update_option( OpenQR_Settings::OPT_SETTINGS, array(
-			'delete_on_uninstall'       => 0,
-			'editors_can_manage'        => 0,
-			'staging_mutations_enabled' => 1,
-			'default_size'              => 512,
-			'per_user_create_limit'     => 10,
-		), true );
+		update_option(
+			OpenQR_Settings::OPT_SETTINGS,
+			array(
+				'delete_on_uninstall'       => 0,
+				'manage_codes_roles'        => array(),
+				'staging_mutations_enabled' => 1,
+				'default_size'              => 512,
+				'per_user_create_limit'     => 10,
+			),
+			true
+		);
 		delete_option( OpenQR_Settings::OPT_KEY );
 		delete_option( OpenQR_Settings::OPT_ACCOUNT );
 		delete_option( OpenQR_Settings::OPT_AUTH_FAIL );

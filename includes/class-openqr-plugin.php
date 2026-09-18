@@ -18,7 +18,8 @@ final class OpenQR_Plugin {
 	 * @return void
 	 */
 	public static function boot(): void {
-		self::load_textdomain();
+		// Translations load automatically for wp.org-hosted plugins (GLoader since WP 4.6);
+		// load_plugin_textdomain() is deliberately not called.
 
 		OpenQR_Registry::maybe_upgrade();
 		OpenQR_Shortcode::register();
@@ -37,14 +38,5 @@ final class OpenQR_Plugin {
 			OpenQR_Admin_Settings::register();
 			OpenQR_Post_Editor::register();
 		}
-	}
-
-	/**
-	 * Load the text domain. The domain MUST equal the wp.org slug.
-	 *
-	 * @return void
-	 */
-	public static function load_textdomain(): void {
-		load_plugin_textdomain( 'openqr', false, dirname( plugin_basename( OPENQR_FILE ) ) . '/languages' );
 	}
 }

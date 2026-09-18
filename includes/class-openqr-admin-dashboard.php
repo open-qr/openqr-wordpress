@@ -37,7 +37,23 @@ final class OpenQR_Admin_Dashboard {
 		$pending = get_user_meta( get_current_user_id(), 'openqr_pending', true );
 		?>
 		<div class="wrap openqr-wrap">
-			<h1 class="openqr-title"><?php echo OpenQR_Admin::logo( 26 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static SVG asset URL ?> <?php esc_html_e( 'OpenQR', 'openqr' ); ?></h1>
+			<?php
+			OpenQR_Admin::hero(
+				__( 'OpenQR', 'openqr' ),
+				__( 'Every code on this site, ready for print: create one, download it, and change where it points without reprinting.', 'openqr' ),
+				array(
+					array(
+						'url'     => OpenQR_Admin::create_url(),
+						'label'   => __( 'New QR code', 'openqr' ),
+						'primary' => true,
+					),
+					array(
+						'url'   => OpenQR_Admin::codes_url(),
+						'label' => __( 'Manage codes', 'openqr' ),
+					),
+				)
+			);
+			?>
 
 			<?php if ( is_array( $pending ) && isset( $pending['post_id'] ) ) : ?>
 				<div class="notice notice-info">
@@ -94,19 +110,14 @@ final class OpenQR_Admin_Dashboard {
 				</div>
 			</div>
 
-			<p class="openqr-quick-actions">
-				<a class="button button-primary button-hero" href="<?php echo esc_url( OpenQR_Admin::create_url() ); ?>"><?php esc_html_e( 'New QR code', 'openqr' ); ?></a>
-				<a class="button button-hero" href="<?php echo esc_url( OpenQR_Admin::codes_url() ); ?>"><?php esc_html_e( 'Manage codes', 'openqr' ); ?></a>
-			</p>
-
 			<h2><?php esc_html_e( 'Recent codes on this site', 'openqr' ); ?></h2>
 			<?php
 			$rows = OpenQR_Registry::page( 5, 0 );
 			if ( ! $rows ) {
-				echo '<p>' . esc_html__( 'No QR codes yet. Create one from any page, post or product - or right here.', 'openqr' ) . '</p>';
-				return;
-			}
-			?>
+				echo '<p class="openqr-empty">' . esc_html__( 'No QR codes yet. Create one from any page, post or product - or right here.', 'openqr' ) . '</p>';
+			} else {
+				?>
+			<div class="openqr-table-wrap">
 			<table class="widefat striped openqr-table">
 				<tbody>
 					<?php foreach ( $rows as $row ) : ?>
@@ -141,6 +152,47 @@ final class OpenQR_Admin_Dashboard {
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+			</div>
+				<?php
+			}
+			?>
+
+			<?php self::render_feedback_card(); ?>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Feedback and roadmap. Explicit user action only: the mailto link opens the user's own
+	 * email client and nothing is sent until they send it. No phone-home, ever.
+	 *
+	 * @return void
+	 */
+	private static function render_feedback_card(): void {
+		$subject = rawurlencode( 'OpenQR for WordPress - feature request' );
+		$body    = rawurlencode(
+			sprintf(
+				"What would you like OpenQR to do?\n\n\n---\nPlugin: %s\nWordPress: %s\nPHP: %s\n",
+				OPENQR_VERSION,
+				get_bloginfo( 'version' ),
+				PHP_VERSION
+			)
+		);
+		?>
+		<div class="card openqr-card openqr-feedback">
+			<h2><?php esc_html_e( 'Help shape what ships next', 'openqr' ); ?></h2>
+			<p><?php esc_html_e( 'OpenQR is built in the open, and the roadmap follows what you ask for. The requests currently at the top of the pile:', 'openqr' ); ?></p>
+			<ul class="openqr-roadmap">
+				<li><?php esc_html_e( 'Bulk creation: turn a list of links into a set of printed codes', 'openqr' ); ?></li>
+				<li><?php esc_html_e( 'An Elementor widget alongside the Gutenberg block', 'openqr' ); ?></li>
+				<li><?php esc_html_e( 'Scheduled destination changes for campaign windows', 'openqr' ); ?></li>
+				<li><?php esc_html_e( 'More fixed-content types and code styling options', 'openqr' ); ?></li>
+			</ul>
+			<p class="openqr-feedback-actions">
+				<a class="button button-primary" href="<?php echo esc_url( 'mailto:accounts@openqr.uk?subject=' . $subject . '&body=' . $body ); ?>"><?php esc_html_e( 'Request a feature', 'openqr' ); ?></a>
+				<a class="button" href="<?php echo esc_url( OpenQR_Marketing_Link::build( '/blog', 'plugin-feedback' ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'See what’s new', 'openqr' ); ?> <span aria-hidden="true">&#8599;</span></a>
+			</p>
+			<p class="description"><?php esc_html_e( 'Request a feature opens your own email app with your versions filled in; nothing is sent until you send it.', 'openqr' ); ?></p>
 		</div>
 		<?php
 	}
@@ -153,7 +205,12 @@ final class OpenQR_Admin_Dashboard {
 	private static function render_connect_wizard(): void {
 		?>
 		<div class="wrap openqr-wrap">
-			<h1 class="openqr-title"><?php echo OpenQR_Admin::logo( 26 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> <?php esc_html_e( 'OpenQR', 'openqr' ); ?></h1>
+			<?php
+			OpenQR_Admin::hero(
+				__( 'OpenQR', 'openqr' ),
+				__( 'Connect once and every code you print stays editable.', 'openqr' )
+			);
+			?>
 			<div class="card openqr-card openqr-connect-card">
 				<h2><?php esc_html_e( 'Connect your OpenQR account', 'openqr' ); ?></h2>
 				<p><?php esc_html_e( 'Create, manage and print QR codes for your pages with a free OpenQR account. Dynamic codes stay editable after printing, and scans show up here.', 'openqr' ); ?></p>
@@ -163,7 +220,7 @@ final class OpenQR_Admin_Dashboard {
 				</ol>
 				<p>
 					<a class="button button-primary button-hero" href="<?php echo esc_url( OpenQR_Admin::settings_url() ); ?>"><?php esc_html_e( 'Connect OpenQR', 'openqr' ); ?></a>
-					<a class="button button-hero" href="<?php echo esc_url( OpenQR_Marketing_Link::keys_page() ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Create a free account + key', 'openqr' ); ?> <span aria-hidden="true">↗</span></a>
+					<a class="button button-hero" href="<?php echo esc_url( OpenQR_Marketing_Link::keys_page() ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Create a free account + key', 'openqr' ); ?> <span aria-hidden="true">&#8599;</span></a>
 				</p>
 			</div>
 		</div>

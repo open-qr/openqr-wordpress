@@ -298,7 +298,7 @@ final class OpenQR_Assets {
 				// phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- asset cleanup
 				@rmdir( $item->getPathname() );
 			} else {
-				// phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions.file_system_operations_unlink -- asset cleanup
+				// phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions.unlink_unlink -- asset cleanup
 				@unlink( $item->getPathname() );
 			}
 		}
@@ -326,7 +326,7 @@ final class OpenQR_Assets {
 				// phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- uninstall wipe
 				@rmdir( $item->getPathname() );
 			} else {
-				// phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions.file_system_operations_unlink -- uninstall wipe
+				// phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.WP.AlternativeFunctions.unlink_unlink -- uninstall wipe
 				@unlink( $item->getPathname() );
 			}
 		}

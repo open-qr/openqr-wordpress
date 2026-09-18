@@ -74,13 +74,19 @@ final class OpenQR_Settings {
 	}
 
 	/**
-	 * Deliberate delegation: editors may manage this site's linked codes (never the connection).
+	 * Deliberate delegation: the roles granted openqr_manage_codes by the Settings picker.
+	 * Never includes administrator (which always holds the capability).
 	 *
-	 * @return bool
+	 * @return array<int, string>
 	 */
-	public static function editors_can_manage(): bool {
-		$s = self::all();
-		return ! empty( $s['editors_can_manage'] );
+	public static function codes_roles(): array {
+		$s     = self::all();
+		$roles = $s['manage_codes_roles'] ?? array();
+		if ( ! is_array( $roles ) ) {
+			return array();
+		}
+		$allowed = array_keys( OpenQR_Capabilities::grantable_roles() );
+		return array_values( array_intersect( array_map( 'strval', $roles ), $allowed ) );
 	}
 
 	/**
@@ -101,7 +107,7 @@ final class OpenQR_Settings {
 	public static function all(): array {
 		$defaults = array(
 			'delete_on_uninstall'       => 0,
-			'editors_can_manage'        => 0,
+			'manage_codes_roles'        => array(),
 			'staging_mutations_enabled' => 0,
 			'default_size'              => 512,
 			'per_user_create_limit'     => 10,
@@ -111,39 +117,24 @@ final class OpenQR_Settings {
 	}
 
 	/**
-	 * Sanitise and store settings; syncs the editor-role capability with the toggle.
+	 * Sanitise and store settings; keeps role capabilities in step with the picker.
 	 *
 	 * @param array<string, mixed> $incoming Raw settings from the form.
 	 * @return void
 	 */
 	public static function update_all( array $incoming ): void {
-		$clean = array(
+		$incoming_roles = isset( $incoming['manage_codes_roles'] ) && is_array( $incoming['manage_codes_roles'] )
+			? array_map( 'sanitize_text_field', wp_unslash( $incoming['manage_codes_roles'] ) )
+			: array();
+		$clean          = array(
 			'delete_on_uninstall'       => empty( $incoming['delete_on_uninstall'] ) ? 0 : 1,
-			'editors_can_manage'        => empty( $incoming['editors_can_manage'] ) ? 0 : 1,
+			'manage_codes_roles'        => array_values( array_intersect( $incoming_roles, array_keys( OpenQR_Capabilities::grantable_roles() ) ) ),
 			'staging_mutations_enabled' => empty( $incoming['staging_mutations_enabled'] ) ? 0 : 1,
 			'default_size'              => max( 96, min( 2048, (int) ( $incoming['default_size'] ?? 512 ) ) ),
 			'per_user_create_limit'     => max( 0, min( 300, (int) ( $incoming['per_user_create_limit'] ?? 10 ) ) ),
 		);
 		update_option( self::OPT_SETTINGS, $clean, true );
-		self::sync_role_capabilities( (bool) $clean['editors_can_manage'] );
-	}
-
-	/**
-	 * Grant/revoke openqr_manage_codes on the editor role when the toggle flips.
-	 *
-	 * @param bool $grant Whether editors may manage codes.
-	 * @return void
-	 */
-	private static function sync_role_capabilities( bool $grant ): void {
-		$role = get_role( 'editor' );
-		if ( ! $role ) {
-			return;
-		}
-		if ( $grant ) {
-			$role->add_cap( 'openqr_manage_codes' );
-		} else {
-			$role->remove_cap( 'openqr_manage_codes' );
-		}
+		OpenQR_Capabilities::sync_codes_caps( $clean['manage_codes_roles'] );
 	}
 
 	/**

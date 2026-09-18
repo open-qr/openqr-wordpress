@@ -1,199 +1,34 @@
-/* OpenQR admin screens. Brand: teal #0a7a79 primary (AA on white), ink #232e3a. */
+/*
+ * OpenQR admin screens.
+ *
+ * The dedicated plugin screens render as one self-contained branded app panel using the
+ * openqr.uk dark palette (ink + teal, the same tokens as the Chrome extension), so they look
+ * deliberate under every wp-admin colour scheme. Everything dark is scoped to .openqr-wrap;
+ * editor metaboxes and the block sidebar live inside WP chrome and only pick up the light
+ * brand rules at the bottom.
+ *
+ * Tokens mirror app/globals.css on openqr.uk.
+ */
 
-.openqr-wrap .openqr-title {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-}
-
-.openqr-logo {
-	border-radius: 4px;
-	flex: none;
-}
-
-.openqr-card {
-	max-width: 780px;
-	background: #fff;
-	border: 1px solid #d2d9e0;
-	border-radius: 8px;
-	padding: 16px 20px;
-	margin: 16px 0;
-}
-
-.openqr-card h2 {
-	margin-top: 0;
-}
-
-.openqr-stats-row {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 16px;
-	margin: 16px 0;
-}
-
-.openqr-stat-card {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	min-width: 180px;
-	background: #fff;
-	border: 1px solid #d2d9e0;
-	border-radius: 8px;
-	padding: 14px 16px;
-}
-
-.openqr-stat-number {
-	font-size: 22px;
-	font-weight: 600;
-	color: #232e3a;
-	word-break: break-all;
-}
-
-.openqr-stat-label {
-	font-size: 12px;
-	color: #5a6573;
-}
-
-.openqr-quick-actions {
-	display: flex;
-	gap: 8px;
-	margin: 16px 0 24px;
-}
-
-.openqr-table .openqr-cell-thumb {
-	width: 72px;
-}
-
-.openqr-table .openqr-cell-thumb img {
-	border: 1px solid #d2d9e0;
-	border-radius: 4px;
-	background: #fff;
-}
-
-.openqr-thumb-placeholder {
-	display: inline-block;
-	width: 56px;
-	height: 56px;
-	border: 1px dashed #b6c0cb;
-	border-radius: 4px;
-	background: #f4f6f8;
-}
-
-.openqr-badge {
-	display: inline-block;
-	margin-left: 6px;
-	padding: 1px 8px;
-	border-radius: 10px;
-	font-size: 11px;
-	font-weight: 600;
-	vertical-align: middle;
-}
-
-.openqr-badge--static {
-	background: #e6f7f7;
-	color: #065f5e;
-}
-
-.openqr-badge--paused {
-	background: #fef3c7;
-	color: #92400e;
-}
-
-.openqr-status--active {
-	color: #067647;
-	font-weight: 600;
-}
-
-.openqr-status--paused {
-	color: #b45309;
-	font-weight: 600;
-}
+/* ── Light-context rules (metabox, block sidebar) ─────────────────────────────── */
 
 .openqr-muted {
 	color: #5a6573;
 	font-size: 12px;
 }
 
-.openqr-cell-actions {
-	white-space: nowrap;
-}
-
-.openqr-cell-actions .button {
-	margin: 1px 0;
-}
-
-.openqr-row-new td {
-	background: #f0fbfb;
-}
-
-.openqr-edit-form {
-	margin-top: 8px;
-	background: #f4f6f8;
-	border-radius: 6px;
-	padding: 10px 12px;
-}
-
-.openqr-edit-form label {
-	display: block;
-	margin-bottom: 6px;
-}
-
-.openqr-edit-form label span {
-	display: block;
-	font-size: 12px;
-	color: #5a6573;
-	margin-bottom: 2px;
-}
-
-.openqr-field {
-	display: block;
-	margin: 12px 0;
-}
-
-.openqr-field > span {
-	display: block;
-	font-size: 12px;
-	color: #5a6573;
-	margin-bottom: 4px;
-}
-
-.openqr-field .description {
-	margin-top: 4px;
-}
-
-.openqr-tab-lede {
-	max-width: 680px;
-	color: #5a6573;
-}
-
-.openqr-type-fields {
-	border-left: 3px solid #e6f7f7;
-	padding-left: 12px;
-}
-
-.openqr-upsell {
-	border-left: 4px solid #0a7a79;
-}
-
-.openqr-analytics-layout {
-	display: flex;
-	gap: 16px;
-	align-items: flex-start;
-	margin-top: 12px;
-}
-
-.openqr-analytics-thumb {
-	border: 1px solid #d2d9e0;
-	border-radius: 8px;
-	background: #fff;
-}
-
-.openqr-staging-card {
-	border-left: 4px solid #b45309;
-}
-
 .openqr-meta-list {
 	margin: 0 0 8px;
+	padding-left: 18px;
+	list-style: disc;
+}
+
+.openqr-meta-list li {
+	margin: 6px 0;
+}
+
+.openqr-meta-list code {
+	font-size: 11px;
 }
 
 .openqr-panel-list,
@@ -210,6 +45,774 @@
 	border-left-color: #b45309;
 }
 
+/* ── The branded app panel ────────────────────────────────────────────────────── */
+
+.openqr-wrap {
+	--oqr-bg: #10171f;
+	--oqr-card: #1a2430;
+	--oqr-well: #0c1319;
+	--oqr-inset: #141d27;
+	--oqr-fg: #e8edf2;
+	--oqr-muted: #aeb9c4;
+	--oqr-soft: #c8d2dc;
+	--oqr-border: #313d4a;
+	--oqr-input: #3f4c5a;
+	--oqr-teal: #2bc4c3;
+	--oqr-teal-bright: #5ee0df;
+	--oqr-teal-soft: rgba(43, 196, 195, 0.14);
+	--oqr-teal-text: #7ce4de;
+	--oqr-amber: #fbd38d;
+	--oqr-red: #f87171;
+	--oqr-ink: #0b1218;
+
+	color-scheme: dark;
+	box-sizing: border-box;
+	max-width: 1120px;
+	margin: 16px 20px 40px 2px;
+	padding: 24px 28px 32px;
+	background:
+		radial-gradient(1100px 260px at 18% -60px, rgba(43, 196, 195, 0.09), rgba(43, 196, 195, 0) 70%),
+		var(--oqr-bg);
+	border: 1px solid var(--oqr-border);
+	border-radius: 16px;
+	color: var(--oqr-fg);
+	font-size: 13px;
+	line-height: 1.55;
+}
+
+.openqr-wrap *,
+.openqr-wrap *::before,
+.openqr-wrap *::after {
+	box-sizing: border-box;
+}
+
+/* Panels and type boxes set their own display (flex/grid), which would override the
+   hidden attribute's UA style without this guard. */
+.openqr-wrap [hidden] {
+	display: none !important;
+}
+
+.openqr-wrap a {
+	color: var(--oqr-teal);
+	text-decoration: none;
+}
+
+.openqr-wrap a:hover {
+	color: var(--oqr-teal-bright);
+}
+
+.openqr-wrap :focus-visible {
+	outline: 2px solid var(--oqr-teal);
+	outline-offset: 2px;
+}
+
+/* ── Hero: logo, title, lede, actions ─────────────────────────────────────────── */
+
+.openqr-hero {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 12px 20px;
+	padding-bottom: 18px;
+	margin-bottom: 18px;
+	border-bottom: 1px solid var(--oqr-border);
+}
+
+.openqr-hero-title {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 1.3;
+	color: #fff;
+}
+
+.openqr-logo {
+	border-radius: 6px;
+	flex: none;
+}
+
+.openqr-hero-lede {
+	margin: 6px 0 0 38px;
+	max-width: 640px;
+	color: var(--oqr-muted);
+	font-size: 13px;
+}
+
+.openqr-hero-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	padding-top: 3px;
+	/* Stay right-aligned when the actions wrap under the lede on narrow screens. */
+	margin-left: auto;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────────────── */
+
+.openqr-wrap .button {
+	min-height: 32px;
+	padding: 4px 14px;
+	border: 1px solid var(--oqr-input);
+	border-radius: 8px;
+	background: transparent;
+	color: var(--oqr-fg);
+	font-weight: 500;
+	box-shadow: none;
+	vertical-align: middle;
+}
+
+.openqr-wrap .button:hover,
+.openqr-wrap .button:focus {
+	border-color: var(--oqr-teal);
+	background: rgba(43, 196, 195, 0.08);
+	color: #fff;
+	box-shadow: none;
+}
+
+.openqr-wrap .button-primary {
+	border-color: var(--oqr-teal);
+	background: var(--oqr-teal);
+	color: var(--oqr-ink);
+	font-weight: 600;
+}
+
+.openqr-wrap .button-primary:hover,
+.openqr-wrap .button-primary:focus {
+	border-color: var(--oqr-teal-bright);
+	background: var(--oqr-teal-bright);
+	color: var(--oqr-ink);
+	box-shadow: none;
+}
+
+.openqr-wrap .button-primary:active {
+	background: #24a9a8;
+	border-color: #24a9a8;
+	color: var(--oqr-ink);
+}
+
+.openqr-wrap .button-primary[disabled],
+.openqr-wrap .button-primary:disabled {
+	background: var(--oqr-teal);
+	border-color: var(--oqr-teal);
+	color: var(--oqr-ink);
+	opacity: 0.5;
+	text-shadow: none;
+}
+
+.openqr-wrap .button-hero {
+	height: auto;
+	min-height: 40px;
+	padding: 8px 18px;
+	font-size: 14px;
+}
+
+.openqr-wrap .button-small {
+	min-height: 26px;
+	padding: 2px 10px;
+	font-size: 12px;
+	border-radius: 6px;
+}
+
+/* ── Inputs ───────────────────────────────────────────────────────────────────── */
+
+.openqr-wrap input[type="text"],
+.openqr-wrap input[type="search"],
+.openqr-wrap input[type="url"],
+.openqr-wrap input[type="email"],
+.openqr-wrap input[type="tel"],
+.openqr-wrap input[type="number"],
+.openqr-wrap input[type="password"],
+.openqr-wrap textarea,
+.openqr-wrap select {
+	background: var(--oqr-well);
+	border: 1px solid var(--oqr-input);
+	border-radius: 8px;
+	color: var(--oqr-fg);
+	min-height: 34px;
+	padding: 6px 10px;
+	box-shadow: none;
+	font-size: 13px;
+}
+
+.openqr-wrap textarea {
+	min-height: 0;
+	line-height: 1.5;
+}
+
+.openqr-wrap input::placeholder,
+.openqr-wrap textarea::placeholder {
+	color: #7f8fa0;
+	opacity: 1;
+}
+
+.openqr-wrap input:focus,
+.openqr-wrap textarea:focus,
+.openqr-wrap select:focus {
+	border-color: var(--oqr-teal);
+	box-shadow: 0 0 0 3px rgba(43, 196, 195, 0.22);
+	outline: none;
+}
+
+.openqr-wrap input[type="checkbox"] {
+	width: 18px;
+	height: 18px;
+	margin: 0;
+	accent-color: var(--oqr-teal);
+}
+
+.openqr-wrap input[type="checkbox"]:focus {
+	outline: 2px solid var(--oqr-teal);
+	outline-offset: 2px;
+}
+
+/* ── Forms ────────────────────────────────────────────────────────────────────── */
+
+.openqr-field {
+	display: block;
+	margin: 14px 0;
+}
+
+.openqr-field > span,
+.openqr-field label > span {
+	display: block;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--oqr-soft);
+	margin-bottom: 5px;
+}
+
+.openqr-field .description {
+	color: var(--oqr-muted);
+	font-size: 12px;
+	margin: 5px 0 0;
+}
+
+.openqr-field--narrow select {
+	min-width: 240px;
+}
+
+.openqr-type-fields {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 16px;
+	margin: 4px 0;
+}
+
+.openqr-type-fields > .openqr-field {
+	flex: 1 1 100%;
+}
+
+.openqr-type-fields > .openqr-field--half {
+	flex: 1 1 220px;
+}
+
+.openqr-field--conditional {
+	flex: 1 1 100%;
+}
+
+.openqr-field--check {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 14px 0;
+}
+
+.openqr-field--check label {
+	margin: 0;
+	font-weight: 500;
+	color: var(--oqr-fg);
+}
+
+.openqr-tab-lede {
+	margin: 0 0 16px;
+	max-width: 640px;
+	color: var(--oqr-muted);
+}
+
+/* ── Cards ────────────────────────────────────────────────────────────────────── */
+
+.openqr-wrap .openqr-card,
+.card.openqr-card {
+	max-width: none;
+	background: var(--oqr-card);
+	border: 1px solid var(--oqr-border);
+	border-radius: 12px;
+	padding: 20px 24px;
+	margin: 16px 0;
+}
+
+.openqr-wrap .openqr-card h2 {
+	margin: 0 0 8px;
+	font-size: 16px;
+	font-weight: 600;
+	color: #fff;
+}
+
+.openqr-wrap .openqr-card h3 {
+	font-size: 14px;
+	color: #fff;
+}
+
+.openqr-card-lede {
+	margin: 0 0 14px;
+	max-width: 640px;
+	color: var(--oqr-muted);
+}
+
+.openqr-connect-card {
+	padding: 26px 28px;
+}
+
+.openqr-connect-card ol {
+	padding-left: 20px;
+	margin: 10px 0 16px;
+}
+
+.openqr-connect-card li {
+	margin: 6px 0;
+}
+
+.openqr-wrap .openqr-upsell {
+	border-left: 3px solid var(--oqr-teal);
+}
+
+.openqr-wrap .openqr-staging-card {
+	border-left: 3px solid #f59e0b;
+}
+
+.openqr-wrap h2:not(.openqr-hero-title) {
+	margin: 22px 0 10px;
+	font-size: 15px;
+	font-weight: 600;
+	color: #fff;
+}
+
+/* ── Role picker ──────────────────────────────────────────────────────────────── */
+
+.openqr-role-picker {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 8px;
+	margin: 4px 0 12px;
+	padding: 0;
+	border: none;
+}
+
+.openqr-role {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	background: var(--oqr-inset);
+	border: 1px solid var(--oqr-border);
+	border-radius: 10px;
+	padding: 10px 14px;
+}
+
+.openqr-role:hover {
+	border-color: var(--oqr-input);
+}
+
+.openqr-role label {
+	margin: 0;
+	flex: 1;
+	font-weight: 500;
+	color: var(--oqr-fg);
+	cursor: pointer;
+}
+
+.openqr-role input[type="checkbox"][disabled] {
+	opacity: 1;
+	cursor: default;
+}
+
+.openqr-role-note {
+	font-size: 11px;
+	font-weight: 600;
+	color: var(--oqr-teal-text);
+	background: var(--oqr-teal-soft);
+	padding: 2px 9px;
+	border-radius: 999px;
+}
+
+/* ── Stats ────────────────────────────────────────────────────────────────────── */
+
+.openqr-stats-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin: 4px 0 12px;
+}
+
+.openqr-stat-card {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	min-width: 180px;
+	background: var(--oqr-inset);
+	border: 1px solid var(--oqr-border);
+	border-radius: 12px;
+	padding: 16px 18px;
+}
+
+.openqr-stat-number {
+	font-size: 24px;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	color: var(--oqr-teal);
+	word-break: break-all;
+}
+
+.openqr-stat-number--small {
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--oqr-fg);
+}
+
+.openqr-stat-label {
+	font-size: 12px;
+	color: var(--oqr-muted);
+}
+
+/* ── Tables ───────────────────────────────────────────────────────────────────── */
+
+.openqr-table-wrap {
+	border: 1px solid var(--oqr-border);
+	border-radius: 12px;
+	background: var(--oqr-inset);
+	overflow-x: auto;
+	margin: 0 0 16px;
+}
+
+.openqr-wrap table.widefat {
+	width: 100%;
+	background: transparent;
+	border: none;
+	border-spacing: 0;
+	color: var(--oqr-fg);
+	margin: 0;
+	box-shadow: none;
+}
+
+.openqr-wrap .widefat th,
+.openqr-wrap .widefat thead td {
+	background: var(--oqr-bg);
+	border-bottom: 1px solid var(--oqr-border);
+	color: var(--oqr-muted);
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	text-align: left;
+	padding: 12px 14px;
+	text-shadow: none;
+}
+
+.openqr-wrap .widefat td {
+	padding: 12px 14px;
+	border-bottom: 1px solid #223041;
+	vertical-align: top;
+	/* WP core sets a light-mode gray directly on .widefat td. */
+	color: var(--oqr-fg);
+}
+
+.openqr-wrap .widefat tbody tr:last-child td {
+	border-bottom: none;
+}
+
+.openqr-wrap .striped tbody tr,
+.openqr-wrap .striped tbody tr:nth-child(odd),
+.openqr-wrap .striped tbody tr:nth-child(even) {
+	background: transparent;
+}
+
+.openqr-wrap .widefat tbody tr:hover {
+	background: rgba(43, 196, 195, 0.04);
+}
+
+.openqr-wrap .striped tbody tr.openqr-row-new,
+.openqr-wrap .striped tbody tr.openqr-row-new:nth-child(odd) {
+	background: rgba(43, 196, 195, 0.09);
+}
+
+.openqr-wrap code {
+	background: var(--oqr-well);
+	color: var(--oqr-teal-text);
+	border-radius: 4px;
+	padding: 2px 6px;
+	font-size: 11.5px;
+}
+
+.openqr-cell-actions {
+	white-space: normal;
+	min-width: 230px;
+}
+
+.openqr-cell-destination {
+	min-width: 200px;
+}
+
+.openqr-cell-actions .button {
+	margin: 2px 2px 2px 0;
+}
+
+.openqr-table .openqr-cell-thumb {
+	width: 76px;
+}
+
+.openqr-table .openqr-cell-thumb img {
+	border: 1px solid var(--oqr-border);
+	border-radius: 6px;
+	background: #fff;
+}
+
+.openqr-thumb-placeholder {
+	display: inline-block;
+	width: 56px;
+	height: 56px;
+	border: 1px dashed var(--oqr-input);
+	border-radius: 6px;
+	background: var(--oqr-well);
+}
+
+.openqr-destination-text {
+	color: var(--oqr-muted);
+	word-break: break-all;
+}
+
+.openqr-empty {
+	color: var(--oqr-muted);
+	background: var(--oqr-inset);
+	border: 1px dashed var(--oqr-input);
+	border-radius: 10px;
+	padding: 18px;
+	margin: 12px 0;
+}
+
+.openqr-search-form {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 12px;
+}
+
+.openqr-search-form .search-box {
+	display: flex;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+}
+
+/* ── Badges + status ──────────────────────────────────────────────────────────── */
+
+.openqr-badge {
+	display: inline-block;
+	margin-left: 8px;
+	padding: 2px 9px;
+	border-radius: 999px;
+	font-size: 11px;
+	font-weight: 600;
+	vertical-align: middle;
+}
+
+.openqr-badge--static {
+	background: var(--oqr-teal-soft);
+	color: var(--oqr-teal-text);
+}
+
+.openqr-badge--paused {
+	background: rgba(251, 191, 36, 0.14);
+	color: var(--oqr-amber);
+}
+
+.openqr-status--active {
+	color: var(--oqr-teal);
+	font-weight: 600;
+}
+
+.openqr-status--paused {
+	color: var(--oqr-amber);
+	font-weight: 600;
+}
+
+/* ── Inline edit form ─────────────────────────────────────────────────────────── */
+
+.openqr-edit-form {
+	margin-top: 10px;
+	background: var(--oqr-well);
+	border: 1px solid var(--oqr-border);
+	border-radius: 8px;
+	padding: 14px 16px;
+	max-width: 520px;
+}
+
+.openqr-edit-form label {
+	display: block;
+	margin-bottom: 10px;
+}
+
+.openqr-edit-form label span {
+	display: block;
+	font-size: 12px;
+	color: var(--oqr-muted);
+	margin-bottom: 4px;
+}
+
+.openqr-edit-form .description {
+	color: var(--oqr-muted);
+	font-size: 12px;
+}
+
+/* ── Tabs as segmented control ────────────────────────────────────────────────── */
+
+.openqr-tabs.nav-tab-wrapper {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	margin: 0 0 18px;
+	padding: 4px;
+	background: var(--oqr-well);
+	border: 1px solid var(--oqr-border);
+	border-radius: 10px;
+}
+
+.openqr-tabs .nav-tab {
+	float: none;
+	margin: 0;
+	padding: 7px 16px;
+	background: transparent;
+	border: none;
+	border-radius: 8px;
+	color: var(--oqr-muted);
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1.4;
+	cursor: pointer;
+}
+
+.openqr-tabs .nav-tab:hover,
+.openqr-tabs .nav-tab:focus {
+	background: rgba(255, 255, 255, 0.05);
+	color: var(--oqr-fg);
+	border-bottom: none;
+}
+
+.openqr-tabs .nav-tab.nav-tab-active,
+.openqr-tabs .nav-tab.nav-tab-active:hover {
+	background: var(--oqr-teal);
+	color: var(--oqr-ink);
+	font-weight: 600;
+	border-bottom: none;
+}
+
+/* ── Notices, pagination, analytics ───────────────────────────────────────────── */
+
+.openqr-wrap .notice {
+	background: var(--oqr-well);
+	border: 1px solid var(--oqr-border);
+	border-left-width: 4px;
+	border-radius: 8px;
+	color: var(--oqr-fg);
+	box-shadow: none;
+	margin: 0 0 16px;
+	padding: 10px 14px;
+}
+
+.openqr-wrap .notice p {
+	color: var(--oqr-fg);
+}
+
+.openqr-wrap .notice-success {
+	border-left-color: var(--oqr-teal);
+}
+
+.openqr-wrap .notice-error {
+	border-left-color: var(--oqr-red);
+}
+
+.openqr-wrap .notice-warning {
+	border-left-color: #f59e0b;
+}
+
+.openqr-wrap .notice-info {
+	border-left-color: #4d9fec;
+}
+
+.openqr-wrap .notice a,
+.openqr-wrap .description a,
+.openqr-wrap td a {
+	color: var(--oqr-teal);
+}
+
 .openqr-js-notice {
 	margin: 8px 0 16px;
+}
+
+.openqr-wrap .tablenav {
+	color: var(--oqr-muted);
+}
+
+.openqr-wrap .tablenav .page-numbers {
+	color: var(--oqr-muted);
+	border-radius: 6px;
+}
+
+.openqr-wrap .tablenav .page-numbers.current {
+	background: var(--oqr-card);
+	border-color: var(--oqr-border);
+	color: #fff;
+}
+
+.openqr-analytics-layout {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	align-items: flex-start;
+	margin-top: 4px;
+}
+
+.openqr-analytics-thumb {
+	border: 1px solid var(--oqr-border);
+	border-radius: 10px;
+	background: #fff;
+}
+
+.openqr-wrap .openqr-upsell .button {
+	margin-right: 6px;
+}
+
+/* ── Feedback + roadmap ───────────────────────────────────────────────────────── */
+
+.openqr-feedback {
+	border-color: rgba(43, 196, 195, 0.35);
+	background:
+		linear-gradient(180deg, rgba(43, 196, 195, 0.07), rgba(43, 196, 195, 0) 60%),
+		var(--oqr-card);
+}
+
+.openqr-roadmap {
+	margin: 8px 0 14px;
+	padding-left: 20px;
+	color: var(--oqr-soft);
+}
+
+.openqr-roadmap li {
+	margin: 5px 0;
+}
+
+.openqr-feedback-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 0 0 8px;
+}
+
+.openqr-feedback .description {
+	color: var(--oqr-muted);
+	font-size: 12px;
+	margin: 0;
 }

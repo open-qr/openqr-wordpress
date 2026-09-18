@@ -94,7 +94,7 @@ final class OpenQR_Registry {
 	private static function table_exists(): bool {
 		global $wpdb;
 		$table = self::table();
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.Schema, WordPress.DB.PreparedSQL.NotPrepared -- schema probe, no user input.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.SchemaChange -- schema probe, no user input.
 		$found = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) );
 		return $found === $table;
 	}
@@ -107,12 +107,12 @@ final class OpenQR_Registry {
 	 */
 	public static function get_by_code_id( string $code_id ): ?array {
 		global $wpdb;
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery -- registry is the source of truth here.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter -- registry is the source of truth here; table name is prefix + constant
 		$row = $wpdb->get_row(
 			$wpdb->prepare( 'SELECT * FROM ' . self::table() . ' WHERE code_id = %s', $code_id ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			ARRAY_A
 		);
-		return $row ?: null;
+		return $row ? $row : null;
 	}
 
 	/**
@@ -123,7 +123,7 @@ final class OpenQR_Registry {
 	 */
 	public static function for_post( int $post_id ): array {
 		global $wpdb;
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter -- table name is prefix + constant
 		$rows = $wpdb->get_results(
 			$wpdb->prepare( 'SELECT * FROM ' . self::table() . ' WHERE post_id = %d ORDER BY id DESC', $post_id ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			ARRAY_A
@@ -146,8 +146,7 @@ final class OpenQR_Registry {
 		$sql                    = 'SELECT * FROM ' . self::table() . " {$where} ORDER BY id DESC LIMIT %d OFFSET %d";
 		$params[]               = $per_page;
 		$params[]               = max( 0, $offset );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-		$rows = $wpdb->get_results( $wpdb->prepare( $sql, $params ), ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		$rows                   = $wpdb->get_results( $wpdb->prepare( $sql, $params ), ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- table name is prefix + constant
 		return is_array( $rows ) ? $rows : array();
 	}
 
@@ -162,8 +161,7 @@ final class OpenQR_Registry {
 		global $wpdb;
 		list( $where, $params ) = self::where_clause( $search, $kind );
 		$sql                    = 'SELECT COUNT(*) FROM ' . self::table() . " {$where}";
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-		return (int) $wpdb->get_var( $params ? $wpdb->prepare( $sql, $params ) : $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		return (int) $wpdb->get_var( $params ? $wpdb->prepare( $sql, $params ) : $sql ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- table name is prefix + constant
 	}
 
 	/**
@@ -279,10 +277,8 @@ final class OpenQR_Registry {
 	public static function drop(): void {
 		global $wpdb;
 		$table = self::table();
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared -- uninstall path, constant table name.
-		$wpdb->query( "DELETE FROM {$table}" );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.Schema, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- uninstall path, constant table name.
-		$wpdb->query( "DROP TABLE IF EXISTS {$table}" );
+		$wpdb->query( "DELETE FROM {$table}" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- uninstall path, constant table name.
+		$wpdb->query( "DROP TABLE IF EXISTS {$table}" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.SchemaChange, PluginCheck.Security.DirectDB.UnescapedDBParameter -- uninstall path, constant table name.
 		delete_option( self::TABLE_OPTION );
 	}
 }

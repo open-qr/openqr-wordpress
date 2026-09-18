@@ -11,7 +11,7 @@ if ( ! $_tests_dir ) {
 }
 
 if ( ! file_exists( $_tests_dir . '/includes/functions.php' ) ) {
-	echo "WP test suite not found at {$_tests_dir}. Set WP_TESTS_DIR.\n";
+	echo "WP test suite not found at {$_tests_dir}. Set WP_TESTS_DIR.\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CLI bootstrap, dies immediately
 	exit( 1 );
 }
 

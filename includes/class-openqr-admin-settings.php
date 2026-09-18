@@ -59,7 +59,12 @@ final class OpenQR_Admin_Settings {
 		);
 		?>
 		<div class="wrap openqr-wrap">
-			<h1 class="openqr-title"><?php echo OpenQR_Admin::logo( 26 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> <?php esc_html_e( 'OpenQR Settings', 'openqr' ); ?></h1>
+			<?php
+			OpenQR_Admin::hero(
+				__( 'Settings', 'openqr' ),
+				__( 'Your OpenQR connection, who can manage codes, and the safeguards that protect printed material.', 'openqr' )
+			);
+			?>
 
 			<div class="card openqr-card">
 				<h2><?php esc_html_e( 'Connection', 'openqr' ); ?></h2>
@@ -103,13 +108,23 @@ final class OpenQR_Admin_Settings {
 
 				<div class="card openqr-card">
 					<h2><?php esc_html_e( 'Who can manage codes', 'openqr' ); ?></h2>
-					<p>
-						<label>
-							<input type="checkbox" name="settings[editors_can_manage]" value="1" <?php checked( OpenQR_Settings::editors_can_manage() ); ?> />
-							<?php esc_html_e( 'Let editors create and edit this site QR codes', 'openqr' ); ?>
-						</label>
-					</p>
-					<p class="description"><?php esc_html_e( 'Editors can work with codes linked to this site. Only administrators can connect the account, browse your whole OpenQR library, or delete codes on openqr.uk.', 'openqr' ); ?></p>
+					<p class="openqr-card-lede"><?php esc_html_e( 'Choose which roles can create and edit this site’s QR codes. Delegated roles only ever see codes linked to this site: connecting the account, browsing your whole OpenQR library and deleting codes stay with administrators.', 'openqr' ); ?></p>
+					<fieldset class="openqr-role-picker">
+						<legend class="screen-reader-text"><?php esc_html_e( 'Roles that can manage codes', 'openqr' ); ?></legend>
+						<div class="openqr-role">
+							<input type="checkbox" id="openqr-role-administrator" checked disabled />
+							<label for="openqr-role-administrator"><?php esc_html_e( 'Administrator', 'openqr' ); ?></label>
+							<span class="openqr-role-note"><?php esc_html_e( 'Always', 'openqr' ); ?></span>
+						</div>
+						<?php $codes_roles = OpenQR_Settings::codes_roles(); ?>
+						<?php foreach ( OpenQR_Capabilities::grantable_roles() as $slug => $label ) : ?>
+							<div class="openqr-role">
+								<input type="checkbox" name="settings[manage_codes_roles][]" value="<?php echo esc_attr( $slug ); ?>" id="openqr-role-<?php echo esc_attr( $slug ); ?>" <?php checked( in_array( $slug, $codes_roles, true ) ); ?> />
+								<label for="openqr-role-<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $label ); ?></label>
+							</div>
+						<?php endforeach; ?>
+					</fieldset>
+					<p class="description"><?php esc_html_e( 'Applied as soon as you save. A role you untick keeps any codes it created, but can no longer create or edit.', 'openqr' ); ?></p>
 				</div>
 
 				<div class="card openqr-card">
