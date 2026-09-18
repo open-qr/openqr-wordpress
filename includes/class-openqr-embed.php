@@ -111,6 +111,9 @@ final class OpenQR_Embed {
 	 * @return string HTML.
 	 */
 	public static function render( array $args ): string {
+		// Builder surfaces bypass the shortcode/block render paths that enqueue this.
+		wp_enqueue_style( 'openqr-frontend' );
+
 		$args = array_merge(
 			array(
 				'source'       => 'current',       // code | current | custom.

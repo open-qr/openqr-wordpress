@@ -20,7 +20,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'OPENQR_VERSION', '1.0.0' );
+define( 'OPENQR_VERSION', '1.2.0' );
 define( 'OPENQR_FILE', __FILE__ );
 define( 'OPENQR_DIR', __DIR__ );
 define( 'OPENQR_URL', plugin_dir_url( __FILE__ ) );

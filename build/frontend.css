@@ -27,3 +27,88 @@
 	float: right;
 	margin-left: 1.5em;
 }
+
+/* Builder embeds (Elementor widget, Fusion element): inherit the theme's typography, only
+   own the layout skeleton. */
+.openqr-embed {
+	max-width: 100%;
+	margin: 1.25em 0;
+}
+
+.openqr-embed--align-left {
+	text-align: left;
+}
+
+.openqr-embed--align-center {
+	text-align: center;
+}
+
+.openqr-embed--align-right {
+	text-align: right;
+}
+
+.openqr-embed__qr {
+	height: auto;
+	max-width: 100%;
+	background: #fff;
+	border-radius: 4px;
+}
+
+.openqr-embed__heading {
+	font-weight: 600;
+	margin: 0 0 0.5em;
+}
+
+.openqr-embed__instruction {
+	font-size: 0.9em;
+	color: inherit;
+	opacity: 0.75;
+	margin: 0.5em 0 0;
+}
+
+.openqr-embed__actions {
+	margin: 0.9em 0 0;
+	display: flex;
+	gap: 1.25em;
+	justify-content: inherit;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.openqr-embed--align-center .openqr-embed__actions {
+	justify-content: center;
+}
+
+.openqr-embed--align-right .openqr-embed__actions {
+	justify-content: flex-end;
+}
+
+.openqr-embed__button {
+	display: inline-block;
+	padding: 0.5em 1.1em;
+	border-radius: 8px;
+	text-decoration: none;
+	border: 1px solid currentColor;
+}
+
+.openqr-embed__download {
+	font-size: 0.85em;
+	opacity: 0.8;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.openqr-embed__inspect {
+	font-size: 11px;
+	opacity: 0.7;
+	margin: 0.5em 0 0;
+}
+
+.openqr-embed--placeholder {
+	border: 1px dashed currentColor;
+	opacity: 0.6;
+	border-radius: 8px;
+	padding: 16px;
+	font-size: 13px;
+}
+
