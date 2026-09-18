@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<ruleset name="OpenQR WordPress Tests">
+	<description>Same functional standard for the test suite, without production docblock and file-naming rules.</description>
+
+	<file>tests</file>
+
+	<rule ref="WordPress">
+		<!-- Docblock completeness on tests is noise: the tests document themselves. -->
+		<exclude name="WordPress-Docs" />
+		<exclude name="Generic.Commenting.DocComment" />
+		<exclude name="Squiz.Commenting.FileComment" />
+		<exclude name="Squiz.Commenting.ClassComment" />
+		<exclude name="Squiz.Commenting.FunctionComment" />
+		<exclude name="Squiz.Commenting.VariableComment" />
+		<!-- PHPUnit test classes are not WP classes; the class-*.php prefix does not apply. -->
+		<exclude name="WordPress.Files.FileName" />
+		<!-- Lowercase "wordpress" is a legitimate UTM VALUE asserted in tests; the auto-fix
+		     would corrupt it (same reason as the production ruleset). -->
+		<exclude name="WordPress.WP.CapitalPDangit" />
+		<!-- Plugin-defined capabilities, see the production ruleset. -->
+		<exclude name="WordPress.WP.Capabilities.Unknown" />
+	</rule>
+
+	<config name="text_domain" value="openqr" />
+	<config name="testVersion" value="7.4-8.5" />
+	<rule ref="PHPCompatibilityWP" />
+</ruleset>

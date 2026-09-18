@@ -16,6 +16,9 @@ composer.lock
 package.json
 package-lock.json
 phpcs.xml.dist
+phpcs.tests.xml.dist
+.wp-env.json
+languages
 phpstan.neon.dist
 phpunit.xml.dist
 .editorconfig

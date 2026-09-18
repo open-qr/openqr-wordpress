@@ -21,8 +21,14 @@
 		}
 	},
 	"scripts": {
-		"lint": "phpcs",
-		"lint:fix": "phpcbf",
+		"lint": [
+			"@php vendor/bin/phpcs",
+			"@php vendor/bin/phpcs --standard=phpcs.tests.xml.dist"
+		],
+		"lint:fix": [
+			"@php vendor/bin/phpcbf",
+			"@php vendor/bin/phpcbf --standard=phpcs.tests.xml.dist"
+		],
 		"analyse": "phpstan analyse"
 	}
 }

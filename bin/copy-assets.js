@@ -9,6 +9,5 @@ const root = path.resolve( __dirname, '..' );
 mkdirSync( path.join( root, 'build' ), { recursive: true } );
 copyFileSync( path.join( root, 'src/admin/admin.js' ), path.join( root, 'build/admin.js' ) );
 copyFileSync( path.join( root, 'src/styles/admin.css' ), path.join( root, 'build/admin.css' ) );
-copyFileSync( path.join( root, 'src/styles/admin.css' ), path.join( root, 'build/admin-banner.css' ) );
 copyFileSync( path.join( root, 'src/styles/frontend.css' ), path.join( root, 'build/frontend.css' ) );
 console.log( 'build assets copied' );

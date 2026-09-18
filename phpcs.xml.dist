@@ -3,9 +3,12 @@
 	<description>Coding standard for the OpenQR WordPress plugin (WordPress-Extra + Docs, PHP 7.4-8.5).</description>
 
 	<file>includes</file>
-	<file>tests</file>
 	<file>openqr.php</file>
 	<file>uninstall.php</file>
+	<!-- tests are scanned by phpcs.tests.xml.dist, run by `composer lint` right after this
+	     ruleset: same functional sniffs, minus the docblock and file-naming rules that only
+	     make sense on production classes. -->
+
 	<exclude-pattern>/vendor/</exclude-pattern>
 	<exclude-pattern>/node_modules/</exclude-pattern>
 	<exclude-pattern>/build/</exclude-pattern>
@@ -19,6 +22,12 @@
 		<!-- Lowercase "wordpress" is a legitimate UTM VALUE in marketing links; the sniffer's
 		     auto-fix rewrote it and corrupted the parameter. JS is linted by wp-scripts. -->
 		<exclude name="WordPress.WP.CapitalPDangit" />
+		<!-- The plugin's two capabilities (openqr_manage_connection, openqr_manage_codes) are
+		     plugin-defined and registered at runtime via add_cap(). The sniff's
+		     custom_capabilities ruleset property does not apply in WPCS 3.1 (verified), so the
+		     "unknown capability" warning is silenced; deprecated-cap and role-as-cap checks
+		     stay active. -->
+		<exclude name="WordPress.WP.Capabilities.Unknown" />
 	</rule>
 
 	<config name="text_domain" value="openqr" />
