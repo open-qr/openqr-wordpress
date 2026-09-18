@@ -175,6 +175,27 @@
 	box-shadow: none;
 }
 
+/* WP core darkens control text on :hover/:active for its light chrome (observed
+   #1e1e1e on select:hover); hold the foreground on every interaction state. */
+.openqr-wrap input:hover,
+.openqr-wrap select:hover,
+.openqr-wrap textarea:hover,
+.openqr-wrap input:active,
+.openqr-wrap select:active,
+.openqr-wrap textarea:active,
+.openqr-wrap input:focus,
+.openqr-wrap select:focus,
+.openqr-wrap textarea:focus {
+	color: var(--oqr-fg);
+}
+
+/* Core ties this selector on specificity and can print later; the extra class wins. */
+.openqr-wrap .wp-core-ui .button:hover,
+.openqr-wrap .wp-core-ui .button:focus,
+.openqr-wrap .wp-core-ui .button:active {
+	color: #fff;
+}
+
 .openqr-wrap .button-primary {
 	border-color: var(--oqr-teal);
 	background: var(--oqr-teal);

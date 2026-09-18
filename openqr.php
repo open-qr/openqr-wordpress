@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: OpenQR
+ * Plugin Name: QR Code Generator: Dynamic QR Codes for Print
  * Plugin URI:  https://github.com/open-qr/openqr-wordpress
- * Description: Create, manage and print QR codes for your pages, posts and products with OpenQR. Dynamic codes stay editable after printing, with scan analytics in your dashboard.
+ * Description: Create and print QR codes for your pages, posts and products. Dynamic codes stay editable after printing: change the destination any time. Scan analytics included.
  * Version:     1.0.0
  * Requires at least: 6.4
  * Requires PHP: 7.4

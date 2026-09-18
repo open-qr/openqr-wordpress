@@ -1,6 +1,6 @@
-=== QR codes by OpenQR ===
+=== QR Code Generator: Dynamic QR Codes for Print ===
 Contributors: openqr
-Tags: qr code, qr codes, qr generator, dynamic qr, print
+Tags: qr code, qr code generator, dynamic qr, wifi qr code, print
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -8,34 +8,42 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Create, manage and print QR codes for your pages, posts and products. Dynamic codes stay editable after printing, with scan analytics.
+Create and print QR codes for your pages, posts and products. Dynamic codes stay editable after printing: change the destination any time. Scans counted.
 
 == Description ==
 
+OpenQR is a QR code generator built for WordPress sites that use codes in the real world: on packaging, flyers, menus, window decals and business cards. Create a code for any page, post or product, download it for print, and change where it points whenever you like. Every printed copy follows: nothing needs reprinting.
+
 **Requires a free OpenQR account and connects to openqr.uk over HTTPS.** Create a key at https://openqr.uk/api and paste it into Settings; the key stays on your server and is used only to talk to OpenQR.
 
-**Made for print.** Choose a page, post or product and click "Create QR": you get a code you can download and print, name so you recognise it later, and re-point at a new address whenever you like — without reprinting. Scans are counted in your dashboard.
+* **Dynamic QR codes that stay editable after printing.** A printed code carries a short link you can re-point at any time: retarget a campaign, fix a typo, swap a landing page. The code on the paper never changes.
+* **Your codes do not expire.** Disconnect or uninstall and your printed codes keep redirecting. A dynamic code does not quietly die the month you stop paying for a subscription tier.
+* **Fixed-content codes too.** Nine types baked into the image: Wi-Fi cards, contact cards (vCard), WhatsApp, SMS, email, phone, URL, text and map location.
+* **Built for print.** Download PNG up to 4096px or print-ready SVG, with the four-module quiet zone printers expect, plus contrast and density warnings before you commit to paper.
+* **Create from anywhere.** One click on any page, post or product row (WooCommerce included), a Gutenberg block with fallback markup, an `[openqr]` shortcode, and a create screen with helpful placeholders.
+* **Durable images.** QR images are generated once and stored in your uploads folder: page loads never wait on an external service, and a rendered page keeps working even if openqr.uk is unreachable.
+* **Scan analytics.** Total and recent scans per code, counted when a printed code is scanned. Devices, referrers, regions and hour-by-hour detail live in your OpenQR dashboard.
+* **Per-role permissions.** Choose exactly which roles can create and edit this site's codes; connecting the account and deleting codes stay with administrators.
+* **Staging-safe.** A cloned site cannot repoint your live codes until you explicitly allow it.
 
-* **Create QR from any page, post or product** — one click on the list row or the editor sidebar.
-* **Editable after printing** — dynamic codes carry a short link; change the destination any time and every printed copy follows.
-* **Fixed-content codes too** — Wi-Fi cards, contact cards, links, SMS, WhatsApp and more (nine types).
-* **Durable images** — your QR images are generated once and stored in your uploads folder. Pages keep rendering even if openqr.uk is unreachable, and nothing runs on the public hot path.
-* **Download for print** — PNG at up to 4096px and print-ready SVG. Four-module quiet zone by default, with contrast and density warnings before you print.
-* **Block + shortcode** — `openqr/qr` Gutenberg block (with fallback markup that survives deactivation) and an `[openqr]` shortcode.
-* **Scan activity** — total and recent scans per code; devices, referrers and places on Pro.
-* **Per-role permissions** — choose exactly which roles can create and edit this site's codes; connecting the account and deleting codes stay with administrators.
-* **Staging-safe** — a cloned site cannot repoint your live codes until you explicitly allow it.
-
-Your QR codes belong to your OpenQR account, so they keep working in the dashboard, the REST API and everywhere else OpenQR works.
+Your codes belong to your OpenQR account, so they also keep working in the OpenQR dashboard, the REST API and everywhere else OpenQR works.
 
 == Installation ==
 
 1. Install and activate the plugin.
 2. Create a free OpenQR account and an API key at https://openqr.uk/api (name it after your website).
 3. Paste the key in Settings > OpenQR.
-4. Click "Create QR" on any page, post or product — or use the OpenQR menu.
+4. Click "Create QR" on any page, post or product, or use the OpenQR menu.
 
 == Frequently Asked Questions ==
+
+= Do the QR codes expire? =
+
+No. Printed codes keep redirecting for as long as your OpenQR account exists, including on the free plan. Disconnecting the plugin or your account does not affect them: the images live in your uploads folder and the redirect lives in your account.
+
+= Can I use it with WooCommerce products? =
+
+Yes. Product rows get the same "Create QR" action as pages and posts, so you can put a scannable code on packaging, shelf labels or receipts and repoint it whenever the product page changes.
 
 = Where is my API key stored? =
 
@@ -47,7 +55,7 @@ Your existing QR codes and images keep working: images are stored in your upload
 
 = Do printed codes keep working if I disconnect or uninstall? =
 
-Disconnecting never affects your codes: they are yours, held in your OpenQR account, and the images live in your uploads folder. Uninstalling removes the plugin's data only — and published images keep working unless you tick "delete everything" before uninstalling.
+Disconnecting never affects your codes: they are yours, held in your OpenQR account, and the images live in your uploads folder. Uninstalling removes the plugin's data only, and published images keep working unless you tick "delete everything" before uninstalling.
 
 = What are the free-plan limits? =
 
@@ -55,7 +63,7 @@ The free plan includes 1 active dynamic code and unlimited fixed-content codes, 
 
 = Can I rename a code's short link? =
 
-Not from WordPress, deliberately: renaming a short link retires it, which would silently break every printed copy. Repointing the destination is different and always safe — that is the feature.
+Not from WordPress, deliberately: renaming a short link retires it, which would silently break every printed copy. Repointing the destination is different and always safe. That is the feature.
 
 = Does this track my visitors? =
 
