@@ -1,34 +1,37 @@
 {
-	"name": "open-qr/openqr-wordpress",
-	"description": "Official OpenQR WordPress plugin: create, manage and print QR codes from wp-admin.",
-	"type": "wordpress-plugin",
-	"license": "GPL-2.0-or-later",
-	"require": {
-		"php": ">=7.4"
-	},
-	"require-dev": {
-		"squizlabs/php_codesniffer": "^3.13",
-		"wp-coding-standards/wpcs": "^3.1",
-		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-		"phpcompatibility/phpcompatibility-wp": "^2.1",
-		"szepeviktor/phpstan-wordpress": "^2.0",
-		"yoast/phpunit-polyfills": "^2.0",
-		"phpunit/phpunit": "^9.6"
-	},
-	"config": {
-		"allow-plugins": {
-			"dealerdirect/phpcodesniffer-composer-installer": true
-		}
-	},
-	"scripts": {
-		"lint": [
-			"@php vendor/bin/phpcs",
-			"@php vendor/bin/phpcs --standard=phpcs.tests.xml.dist"
-		],
-		"lint:fix": [
-			"@php vendor/bin/phpcbf",
-			"@php vendor/bin/phpcbf --standard=phpcs.tests.xml.dist"
-		],
-		"analyse": "phpstan analyse"
-	}
+    "name": "open-qr/openqr-wordpress",
+    "description": "Official OpenQR WordPress plugin: create, manage and print QR codes from wp-admin.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.13",
+        "wp-coding-standards/wpcs": "^3.1",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+        "phpcompatibility/phpcompatibility-wp": "^2.1",
+        "szepeviktor/phpstan-wordpress": "^2.0",
+        "yoast/phpunit-polyfills": "^2.0",
+        "phpunit/phpunit": "^9.6"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "platform": {
+            "php": "7.4.33"
+        }
+    },
+    "scripts": {
+        "lint": [
+            "@php vendor/bin/phpcs",
+            "@php vendor/bin/phpcs --standard=phpcs.tests.xml.dist"
+        ],
+        "lint:fix": [
+            "@php vendor/bin/phpcbf",
+            "@php vendor/bin/phpcbf --standard=phpcs.tests.xml.dist"
+        ],
+        "analyse": "phpstan analyse"
+    }
 }
