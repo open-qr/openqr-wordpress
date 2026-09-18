@@ -68,10 +68,17 @@ jobs:
       - name: Install JS dev deps + build
         run: npm install && npm run build
 
+      - name: Start wp-env
+        env:
+          WP_ENV_PHP_VERSION: ${{ matrix.php }}
+          WP_ENV_CORE: ${{ matrix.wp == 'latest' && 'WordPress/WordPress' || 'WordPress/WordPress#6.4' }}
+        run: npx wp-env start
+
       - name: Run PHPUnit in wp-env
         env:
           WP_ENV_PHP_VERSION: ${{ matrix.php }}
-          WP_ENV_CORE: ${{ matrix.wp == 'latest' && 'WordPress/WordPress' || 'https://wordpress.org/wordpress-6.4.tar.gz' }}
+          WP_ENV_CORE: ${{ matrix.wp == 'latest' && 'WordPress/WordPress' || 'WordPress/WordPress#6.4' }}
         # wp-env is the npm package (there is no official GitHub Action for it); it drives
-        # the Docker daemon preinstalled on the runner and auto-starts the containers.
+        # the Docker daemon preinstalled on the runner. start must be explicit: a bare
+        # `run` on a fresh runner can find no docker-compose file.
         run: npm run test:php
