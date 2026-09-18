@@ -57,28 +57,38 @@ jobs:
             wp: '6.4'
           - php: '7.4'
             wp: 'latest'
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: wordpress_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
         with:
-          node-version: 22
+          php-version: ${{ matrix.php }}
+          extensions: mysqli
+          tools: composer:v2
 
-      - name: Install JS dev deps + build
-        run: npm install && npm run build
+      - name: Install PHP dev deps
+        run: composer install --prefer-dist --no-progress
 
-      - name: Start wp-env
+      - name: Install WordPress + the PHPUnit test scaffold
         env:
-          WP_ENV_PHP_VERSION: ${{ matrix.php }}
-          WP_ENV_CORE: ${{ matrix.wp == 'latest' && 'WordPress/WordPress' || 'WordPress/WordPress#6.4' }}
-        run: npx wp-env start
+          WP_VERSION: ${{ matrix.wp }}
+        run: bash bin/install-wp-tests.sh wordpress_test root root 127.0.0.1:3306 "$WP_VERSION" true
 
-      - name: Run PHPUnit in wp-env
+      - name: Run PHPUnit
         env:
-          WP_ENV_PHP_VERSION: ${{ matrix.php }}
-          WP_ENV_CORE: ${{ matrix.wp == 'latest' && 'WordPress/WordPress' || 'WordPress/WordPress#6.4' }}
-        # wp-env is the npm package (there is no official GitHub Action for it); it drives
-        # the Docker daemon preinstalled on the runner. start must be explicit: a bare
-        # `run` on a fresh runner can find no docker-compose file.
-        run: npm run test:php
+          WP_TESTS_DIR: /tmp/wordpress-tests-lib
+        run: vendor/bin/phpunit -c phpunit.xml.dist
