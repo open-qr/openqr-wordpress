@@ -4,9 +4,13 @@
   "name": "openqr/qr",
   "title": "OpenQR code",
   "category": "media",
-  "description": "Embed an OpenQR QR code: a saved editable code, or a fixed URL. Renders as a durable image stored on this site.",
+  "description": "Embed an OpenQR QR code: a saved editable code, the current page or product, or fixed content. Renders as a durable image stored on this site.",
   "textdomain": "openqr",
   "attributes": {
+    "source": {
+      "type": "string",
+      "default": ""
+    },
     "codeId": {
       "type": "string",
       "default": ""
@@ -38,6 +42,118 @@
     "align": {
       "type": "string",
       "default": ""
+    },
+    "cfType": {
+      "type": "string",
+      "default": "url"
+    },
+    "cfUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "cfText": {
+      "type": "string",
+      "default": ""
+    },
+    "cfEmail": {
+      "type": "string",
+      "default": ""
+    },
+    "cfSubject": {
+      "type": "string",
+      "default": ""
+    },
+    "cfBody": {
+      "type": "string",
+      "default": ""
+    },
+    "cfPhone": {
+      "type": "string",
+      "default": ""
+    },
+    "cfMessage": {
+      "type": "string",
+      "default": ""
+    },
+    "cfSsid": {
+      "type": "string",
+      "default": ""
+    },
+    "cfPassword": {
+      "type": "string",
+      "default": ""
+    },
+    "cfEncryption": {
+      "type": "string",
+      "default": "WPA"
+    },
+    "cfHidden": {
+      "type": "boolean",
+      "default": false
+    },
+    "cfLat": {
+      "type": "string",
+      "default": ""
+    },
+    "cfLng": {
+      "type": "string",
+      "default": ""
+    },
+    "cfFirstName": {
+      "type": "string",
+      "default": ""
+    },
+    "cfLastName": {
+      "type": "string",
+      "default": ""
+    },
+    "cfOrg": {
+      "type": "string",
+      "default": ""
+    },
+    "cfTitle": {
+      "type": "string",
+      "default": ""
+    },
+    "cfWebsite": {
+      "type": "string",
+      "default": ""
+    },
+    "cfAddress": {
+      "type": "string",
+      "default": ""
+    },
+    "presentation": {
+      "type": "string",
+      "default": "qr_caption"
+    },
+    "heading": {
+      "type": "string",
+      "default": ""
+    },
+    "instruction": {
+      "type": "string",
+      "default": ""
+    },
+    "qrDark": {
+      "type": "string",
+      "default": ""
+    },
+    "qrLight": {
+      "type": "string",
+      "default": ""
+    },
+    "buttonText": {
+      "type": "string",
+      "default": ""
+    },
+    "buttonUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "download": {
+      "type": "boolean",
+      "default": false
     }
   },
   "supports": {

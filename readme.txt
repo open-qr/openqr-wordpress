@@ -84,6 +84,8 @@ The OpenQR dashboard shows what is shipping next, and the roadmap follows what u
 
 = 1.2.0 =
 * New: native Elementor widget (Free compatible) and Avada / Fusion Builder element, sharing one embed renderer: three content sources (an existing OpenQR code, the current page or product with per-item resolution for reusable templates, or custom URL / fixed content), three presentations (QR only, QR with instruction, QR with button), QR colours, optional download link, and an editor-only "encodes" inspection so the wrong code is caught before publishing.
+* Improved: the openqr/qr Gutenberg block gains the same sources, presentations and appearance options, with a live server-rendered preview in the editor. Saved 1.0 blocks keep rendering exactly as before.
+* Fixed: /v1/qr render requests did not URL-encode the payload, so codes whose content contained &, = or # (email subjects with parameters, URLs with query strings) rendered truncated since 1.0.
 * Rendering never creates cloud codes or spends allowances; static embeds are rendered once and stored in your uploads folder like every other durable asset. Button clicks are ordinary links and are never counted as scans.
 
 = 1.0.0 =
