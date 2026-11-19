@@ -80,6 +80,10 @@ No. Scans are counted by OpenQR when a printed code is scanned, as with any Open
 
 The OpenQR dashboard shows what is shipping next, and the roadmap follows what users ask for: the "Request a feature" button opens a short form on openqr.uk. Sending a request sends your message to the OpenQR team, along with your plugin and WordPress versions so it is actionable; nothing is sent until you press Send on that form.
 
+== Research ==
+
+The design guidance behind OpenQR is measured, not guessed. The Scannability Benchmark (https://openqr.uk/research/scannability-benchmark, DOI https://doi.org/10.5281/zenodo.24352636) tests how far QR styling can go across four open-source decoders: logo-occlusion ceilings, the ~3 px/module resolution floor, contrast and inversion limits. Code and dataset: https://github.com/open-qr/scannability-benchmark
+
 == Changelog ==
 
 = 1.2.0 =
